@@ -37,8 +37,8 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
         return $id;
     }
 
-    public function loadAll(){
-        $table = $this->getMainTable();
+    public function loadAllByStoreId($store_id=''){
+        $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
         $select = $this->_getReadAdapter()->select()->from($table)
                                         ->reset('columns')
@@ -48,8 +48,8 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
-        $table = $this->getMainTable();
+    public function loadLimitedByStoreId($limit, $offset, $store_id=''){
+        $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
         $select = $this->_getReadAdapter()->select()->from($table)
                                         ->reset('columns')

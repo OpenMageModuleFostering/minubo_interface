@@ -70,18 +70,26 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 						</output_type>
-                        <productbrand translate="label">
-                            <label>Additional product-field brand (see catalog_product_flat_1)</label>
+                        <storeid translate="label">
+                            <label>Store ID (optional, Default: 1)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </productbrand>
-                        <productorigin translate="label">
-                            <label>Additional product-fields country of origin (see catalog_product_flat_1)</label>
+                        </storeid>
+                        <productbrand translate="label">
+                            <label>Additional product-field brand (see catalog_product_flat_1)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </productbrand>
+                        <productorigin translate="label">
+                            <label>Additional product-field country of origin (see catalog_product_flat_1)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -89,7 +97,7 @@
                         <productfields translate="label">
                             <label>Additional product-fields (comma-separated, see catalog_product_flat_1)</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>7</sort_order>
+                            <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -97,7 +105,7 @@
                         <attributefields translate="label">
                             <label>Additional product-attribute-fields (comma-separated, see eav_attribute.attribute_code -> catalog_product_entity_varchar)</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>8</sort_order>
+                            <sort_order>9</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -105,7 +113,7 @@
                         <lastexportstartdate translate="label">
 							<label>Last Export started at</label>
 							<frontend_type>label</frontend_type>
-							<sort_order>9</sort_order>
+							<sort_order>10</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
@@ -113,7 +121,7 @@
 						<lastexportenddate translate="label">
 							<label>Last Export ended at</label>
 							<frontend_type>label</frontend_type>
-							<sort_order>10</sort_order>
+							<sort_order>11</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
@@ -121,7 +129,7 @@
 						<firstchangedate translate="label">
 							<label>Last Export from Change-Date</label>
 							<frontend_type>label</frontend_type>
-							<sort_order>11</sort_order>
+							<sort_order>12</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
@@ -129,7 +137,7 @@
 						<lastchangedate translate="label">
 							<label>Last Export to Change-Date</label>
 							<frontend_type>label</frontend_type>
-							<sort_order>12</sort_order>
+							<sort_order>13</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
