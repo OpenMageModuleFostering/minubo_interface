@@ -7,15 +7,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
     }
 
     protected function getColumns() {
-    		$r = array('oa.entity_id','oa.customer_address_id','oa.region_id','oa.region','oa.postcode','oa.city',
-										'oa.country_id','oa.address_type','MD5(oa.email) AS Customer_HashCode','c.group_id',
-										'cg.customer_group_code','o.store_id');
-				$showemail = Mage::getStoreConfig('minubo_interface/settings/showemail',Mage::app()->getStore());
-				if($showemail) 
-					$field1 = 'email';
-				else
-					$field1 = "'' as email";        
-        return array_merge($r, array($field1));
+    		return array('oa.entity_id','oa.customer_address_id','oa.region_id','oa.region','oa.postcode','oa.city','oa.country_id','oa.address_type','MD5(oa.email) AS Customer_HashCode','c.group_id','cg.customer_group_code','o.store_id');
     }
 
     public function loadByField($field,$value){
@@ -41,7 +33,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
         return $id;
     }
 
-    public function loadAllByStoreId($store_id){
+    public function loadAll(){
         $table = $this->getMainTable();
         $table2 = $this->getTable('customer_address_entity');
         $cond2 = $this->_getReadAdapter()->quoteInto('oa.customer_address_id = ca.entity_id','');
@@ -51,7 +43,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
         $cond4 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
         $table5 = $this->getTable('sales_flat_order');
         $cond5 = $this->_getReadAdapter()->quoteInto('oa.parent_id = o.entity_id','');
-        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
+        $where = $this->_getReadAdapter()->quoteInto("oa.entity_id > ?", 0);
 				$select = $this->_getReadAdapter()->select()->from(array('oa'=>$table))
 																										->join(array('ca'=>$table2), $cond2)
 																										->join(array('c'=>$table3), $cond3)
@@ -64,7 +56,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimitedByStoreId($limit, $offset, $store_id){
+    public function loadLimited($limit, $offset){
         $table = $this->getMainTable();
         $table2 = $this->getTable('customer_address_entity');
         $cond2 = $this->_getReadAdapter()->quoteInto('oa.customer_address_id = ca.entity_id','');
@@ -74,7 +66,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
         $cond4 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
         $table5 = $this->getTable('sales_flat_order');
         $cond5 = $this->_getReadAdapter()->quoteInto('oa.parent_id = o.entity_id','');
-        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
+        $where = $this->_getReadAdapter()->quoteInto("oa.entity_id > ?", 0);
 				$select = $this->_getReadAdapter()->select()->from(array('oa'=>$table))
 																										->join(array('ca'=>$table2), $cond2)
 																										->join(array('c'=>$table3), $cond3)

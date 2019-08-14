@@ -7,43 +7,23 @@ class Minubo_Interface_Model_Mysql4_Orderitems extends Mage_Core_Model_Mysql4_Ab
     }
 
     protected function getColumns() {
-    		return array('op.order_id as orderKey','op.item_id as orderLineKey','oi.product_id as productKey',
-    							'op.quote_Item_Id','op.is_Virtual','op.free_Shipping',
-    							'op.is_Qty_Decimal','op.no_Discount','op.created_At','op.updated_At','op.qty_Canceled','op.qty_Invoiced','op.qty_Ordered',
-    							'op.qty_Refunded','op.qty_Shipped','op.base_cost as cost','op.price','op.base_Price','op.original_Price','op.base_Original_Price',
-    							'op.tax_Percent','op.tax_Amount','op.base_Tax_Amount','op.tax_Invoiced','op.base_Tax_Invoiced','op.discount_Percent',
-    							'op.discount_Amount','op.base_Discount_Amount','op.discount_Invoiced','op.base_Discount_Invoiced','op.amount_Refunded',
-    							'op.base_Amount_Refunded','op.row_Total','op.base_Row_Total','op.row_Invoiced','op.base_Row_Invoiced','op.base_Tax_Before_Discount',
-    							'op.tax_Before_Discount','op.product_Type','op.product_Type AS product_Options','op.sku','op.applied_Rule_Ids','op.gift_Message_Id','o.store_id');
-    							// op.product_Type doppelt statt op.product_Options weil letzteres Probleme macht
+    		return array('o.order_id as orderKey','o.item_id as orderLineKey','oi.product_id as productKey',
+    							'o.quote_Item_Id','o.is_Virtual','o.free_Shipping',
+    							'o.is_Qty_Decimal','o.no_Discount','o.created_At','o.updated_At','o.qty_Canceled','o.qty_Invoiced','o.qty_Ordered',
+    							'o.qty_Refunded','o.qty_Shipped','o.base_cost as cost','o.price','o.base_Price','o.original_Price','o.base_Original_Price',
+    							'o.tax_Percent','o.tax_Amount','o.base_Tax_Amount','o.tax_Invoiced','o.base_Tax_Invoiced','o.discount_Percent',
+    							'o.discount_Amount','o.base_Discount_Amount','o.discount_Invoiced','o.base_Discount_Invoiced','o.amount_Refunded',
+    							'o.base_Amount_Refunded','o.row_Total','o.base_Row_Total','o.row_Invoiced','o.base_Row_Invoiced','o.base_Tax_Before_Discount',
+    							'o.tax_Before_Discount','o.product_Type','o.product_Options','o.sku','o.applied_Rule_Ids','o.gift_Message_Id');
     }
-
-		/*
-			select op.order_id as orderKey,op.item_id as orderLineKey,oi.product_id as productKey,
-    							op.quote_Item_Id,op.is_Virtual,op.free_Shipping,
-    							op.is_Qty_Decimal,op.no_Discount,op.created_At,op.updated_At,op.qty_Canceled,op.qty_Invoiced,op.qty_Ordered,
-    							op.qty_Refunded,op.qty_Shipped,op.base_cost as cost,op.price,op.base_Price,op.original_Price,op.base_Original_Price,
-    							op.tax_Percent,op.tax_Amount,op.base_Tax_Amount,op.tax_Invoiced,op.base_Tax_Invoiced,op.discount_Percent,
-    							op.discount_Amount,op.base_Discount_Amount,op.discount_Invoiced,op.base_Discount_Invoiced,op.amount_Refunded,
-    							op.base_Amount_Refunded,op.row_Total,op.base_Row_Total,op.row_Invoiced,op.base_Row_Invoiced,op.base_Tax_Before_Discount,
-    							op.tax_Before_Discount,op.product_Type,op.product_Type AS product_Options,op.sku,op.applied_Rule_Ids,op.gift_Message_Id,o.store_id
-			from sales_flat_order_item op
-			inner join sales_flat_order_item oi on op.item_id = IFNULL(oi.parent_item_id,oi.item_id)
-			inner join sales_flat_order o on op.order_id = o.entity_id
-			where (oi.product_type = 'simple' or oi.product_type = 'virtual' or oi.product_type = 'downloadable') AND o.store_id = 1
-      order by op.item_id;
-		*/
 
 		public function loadByField($field,$value){
         $table = $this->getMainTable();
-        $tableHeader = $this->getTable('sales_flat_order');
-        $condHeader = $this->_getReadAdapter()->quoteInto('op.order_id = o.entity_id','');
         $table2 = $this->getTable('sales_flat_order_item');
-        $cond2 = $this->_getReadAdapter()->quoteInto('op.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
-        $where = $this->_getReadAdapter()->quoteInto("$field = ? AND (oi.product_type = 'simple' or oi.product_type = 'virtual' or oi.product_type = 'downloadable') AND o.store_id = ?", $value, $store_id);
-        $select = $this->_getReadAdapter()->select()->from(array('op'=>$table))
+        $cond2 = $this->_getReadAdapter()->quoteInto('o.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
+        $where = $this->_getReadAdapter()->quoteInto("$field = ? AND oi.product_type = 'simple'", $value);
+        $select = $this->_getReadAdapter()->select()->from(array('o'=>$table))
                                                     ->join(array('oi'=>$table2), $cond2)
-                                        						->join(array('o'=>$tableHeader), $condHeader)
                                                     ->reset('columns')
                                                     ->columns($this->getColumns())
                                                     ->where($where);
@@ -51,40 +31,34 @@ class Minubo_Interface_Model_Mysql4_Orderitems extends Mage_Core_Model_Mysql4_Ab
         return $id;
     }
 
-    public function loadAllByStoreId($store_id){
+    public function loadAll(){
         $table = $this->getMainTable();
-        $tableHeader = $this->getTable('sales_flat_order');
-        $condHeader = $this->_getReadAdapter()->quoteInto('op.order_id = o.entity_id','');
         $table2 = $this->getTable('sales_flat_order_item');
-        $cond2 = $this->_getReadAdapter()->quoteInto('op.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
-        $where = $this->_getReadAdapter()->quoteInto("(oi.product_type = 'simple' or oi.product_type = 'virtual' or oi.product_type = 'downloadable') AND o.store_id = ?", $store_id);
+        $cond2 = $this->_getReadAdapter()->quoteInto('o.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
+        $where = $this->_getReadAdapter()->quoteInto("oi.product_type='simple'", '');
         $select = $this->_getReadAdapter()->select()
-                                        ->from(array('op'=>$table))
+                                        ->from(array('o'=>$table))
                                         ->join(array('oi'=>$table2), $cond2)
-                                        ->join(array('o'=>$tableHeader), $condHeader)
                                         ->reset('columns')
                                         ->columns($this->getColumns())
                                         ->where($where)
-                                        ->order('op.item_id');
+                                        ->order('o.item_id');
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimitedByStoreId($limit, $offset, $store_id){
+    public function loadLimited($limit, $offset){
         $table = $this->getMainTable();
-        $tableHeader = $this->getTable('sales_flat_order');
-        $condHeader = $this->_getReadAdapter()->quoteInto('op.order_id = o.entity_id','');
         $table2 = $this->getTable('sales_flat_order_item');
-        $cond2 = $this->_getReadAdapter()->quoteInto('op.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
-        $where = $this->_getReadAdapter()->quoteInto("(oi.product_type = 'simple' or oi.product_type = 'virtual' or oi.product_type = 'downloadable') AND o.store_id = ?", $store_id);
+        $cond2 = $this->_getReadAdapter()->quoteInto('o.item_id = IFNULL(oi.parent_item_id,oi.item_id)','');
+        $where = $this->_getReadAdapter()->quoteInto("oi.product_type='simple'", '');
         $select = $this->_getReadAdapter()->select()
-                                        ->from(array('op'=>$table))
+                                        ->from(array('o'=>$table))
                                         ->join(array('oi'=>$table2), $cond2)
-                                        ->join(array('o'=>$tableHeader), $condHeader)
                                         ->reset('columns')
                                         ->columns($this->getColumns())
                                         ->where($where)
                                         ->limit($limit, $offset)
-                                        ->order('op.item_id');
+                                        ->order('o.item_id');
         return $this->_getReadAdapter()->fetchAll($select);
     }
 

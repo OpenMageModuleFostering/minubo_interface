@@ -52,7 +52,6 @@ class Minubo_Interface_Model_Read_Collections extends Minubo_Interface_Model_Rea
     public function readCountries($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id)
     {
 		$countries = Mage::getModel('directory/country')->getResourceCollection()->loadByStore(); // ->toOptionArray(true);
-		// $countries = Mage::getModel('directory/country_api')->items();
 		return $countries;
     }
 

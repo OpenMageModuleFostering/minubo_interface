@@ -22,7 +22,7 @@
  * @package    Minubo_Interface
  * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     Sven Rothe <sven@minubo.com>
+ * @author     Sven Rothe <srothe@minubo.com>
  * */
 
 class Minubo_Interface_Model_Tables extends Minubo_Interface_Model_Read_Common
@@ -48,20 +48,10 @@ class Minubo_Interface_Model_Tables extends Minubo_Interface_Model_Read_Common
 		$data = $this->getResource()->loadAll();
 	    return $data;
     }
-    public function readAllByStoreId($storeId='1')
-    {
-		$data = $this->getResource()->loadAllByStoreId($storeId);
-	    return $data;
-    }
-
+    
     public function readLimited($limit, $offset)
     {
     	$data = $this->getResource()->loadLimited($limit, $offset);
-    	return $data;
-    }
-		public function readLimitedByStoreId($limit, $offset, $storeId='1')
-    {
-    	$data = $this->getResource()->loadLimitedByStoreId($limit, $offset, $storeId);
     	return $data;
     }
 
