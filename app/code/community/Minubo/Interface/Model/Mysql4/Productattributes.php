@@ -18,7 +18,7 @@ class Minubo_Interface_Model_Mysql4_Productattributes extends Mage_Core_Model_My
         $cond3 = $this->_getReadAdapter()->quoteInto('eav.attribute_id = var.attribute_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
         $table4 = $this->getTable('eav_attribute_set');
         $cond4 = $this->_getReadAdapter()->quoteInto('e.attribute_set_id = eas.attribute_set_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
-        $where = $this->_getReadAdapter()->quoteInto("$field = ?", $value);
+        $where = $this->_getReadAdapter()->quoteInto("$field = ? AND eav.attribute_code in ('name','color')", 0);
         $select = $this->_getReadAdapter()->select()->from(array('e'=>$table))
 																										->join(array('eav'=>$table2), $cond2)
 																										->join(array('var'=>$table3), $cond3)
@@ -38,7 +38,7 @@ class Minubo_Interface_Model_Mysql4_Productattributes extends Mage_Core_Model_My
         $cond3 = $this->_getReadAdapter()->quoteInto('eav.attribute_id = var.attribute_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
         $table4 = $this->getTable('eav_attribute_set');
         $cond4 = $this->_getReadAdapter()->quoteInto('e.attribute_set_id = eas.attribute_set_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
-        $where = $this->_getReadAdapter()->quoteInto("e.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("e.entity_id > ? AND eav.attribute_code in ('name','color')", 0);
 				$select = $this->_getReadAdapter()->select()->from(array('e'=>$table))
 																										->join(array('eav'=>$table2), $cond2)
 																										->join(array('var'=>$table3), $cond3)
@@ -79,7 +79,7 @@ class Minubo_Interface_Model_Mysql4_Productattributes extends Mage_Core_Model_My
         $cond3 = $this->_getReadAdapter()->quoteInto('eav.attribute_id = var.attribute_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
         $table4 = $this->getTable('eav_attribute_set');
         $cond4 = $this->_getReadAdapter()->quoteInto('e.attribute_set_id = eas.attribute_set_id AND ','').$this->_getReadAdapter()->quoteInto('e.entity_id = var.entity_id', '');
-        $where = $this->_getReadAdapter()->quoteInto("e.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("e.entity_id > ? AND eav.attribute_code in ('name','color')", 0);
 				$select = $this->_getReadAdapter()->select()->from(array('e'=>$table))->reset('columns')
 																										->join(array('eav'=>$table2), $cond2)
 																										->join(array('var'=>$table3), $cond3)

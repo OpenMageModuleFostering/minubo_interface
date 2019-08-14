@@ -519,7 +519,7 @@ class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Ab
 				if (!is_object($product)) $product = Mage::getModel('catalog/product')->loadByAttribute('sku', trim($this->getItemSku($item)));
 				// $item->getProductId() liefert die Id des Basisartikels bei Variationen
         return array(
-            $itemInc,
+            $item->getId(),
             (is_object($product) ? $product->getId() : '-1'),
             $this->getItemSku($item),
             $item->getName(),
