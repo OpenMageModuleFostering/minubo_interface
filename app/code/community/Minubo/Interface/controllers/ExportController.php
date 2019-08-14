@@ -85,7 +85,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('orderaddresses');
-		$orderaddresses = $model->readAll();
+		$orderaddresses = $model->readAllByStoreId($store_id);
 		echo '# OrderAddresses: '.count($orderaddresses).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
@@ -95,7 +95,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('customeraddresses');
-		$customeraddresses = $model->readAll();
+		$customeraddresses = $model->readAllByStoreId($store_id);
 		echo '# CustomerAddresses: '.count($customeraddresses).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
@@ -211,16 +211,16 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 	public function handleCountries (&$rows, $filename, $type, $pdata, $start, $download)
 	{
-		switch(Mage::getStoreConfig('minubo_interface/settings/output_type',Mage::app()->getStore())){
-			case 'Standard':
+		// switch(Mage::getStoreConfig('minubo_interface/settings/output_type',Mage::app()->getStore())){
+		//	case 'Standard':
 				$file = Mage::getModel('minubo_interface/export_csv')->exportCountries($rows, $filename, $type, $pdata);
 				if (!$download) {
 					echo file_get_contents(Mage::getBaseDir('export').'/'.$file);
 				} else {
 					$this->_prepareDownloadResponse($file, file_get_contents(Mage::getBaseDir('export').'/'.$file));
 				}
-		 		break;
-		}
+		// 		break;
+		// }
 		$config = new Mage_Core_Model_Config();
 		$config->saveConfig('minubo_interface/settings/lastexportenddate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
 		$config = null;
@@ -248,11 +248,11 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 	public function orderCustomersAction ()
 	{
-		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array());
+		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array(), true);
 	}
 	public function orderAddressesAction ()
 	{
-		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array());
+		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array(), true);
 	}
 
 	public function customersAction ()
@@ -263,7 +263,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 	public function customerAddressesAction ()
 	{
-		$this->handleTable ('orderaddresses', 'orderaddr', 'orderaddresses', Array(), Array(), Array());
+		$this->handleTable ('orderaddresses', 'orderaddr', 'orderaddresses', Array(), Array(), Array(), true);
 	}
 
 	public function productsAction ()
@@ -328,8 +328,8 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$start = $this->getMicrotime();
 		$this->getParam($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id, $download);
 
-		switch(Mage::getStoreConfig('minubo_interface/settings/output_type',Mage::app()->getStore())){
-			case 'Standard':
+		// switch(Mage::getStoreConfig('minubo_interface/settings/output_type',Mage::app()->getStore())){
+		// 	case 'Standard':
 				$model = Mage::getModel('minubo_interface/tables');
 				if($debug) echo 'model->init: '.$sqlinterface.'<br>';
 				$model->init($sqlinterface);
@@ -364,8 +364,8 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 				} else {
 					$this->_prepareDownloadResponse($file, file_get_contents(Mage::getBaseDir('export').'/'.$file));
 				}
-				break;
-		}
+		// 		break;
+		// }
 		$config = new Mage_Core_Model_Config();
 		$config->saveConfig('minubo_interface/settings/lastexportenddate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
 		$config = null;

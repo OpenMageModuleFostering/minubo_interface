@@ -61,7 +61,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 						</newhash>
-						<output_type translate="label">
+						<!-- output_type translate="label">
 							<label>Output type</label>
 							<frontend_type>select</frontend_type>
 							<source_model>Minubo_Interface_Model_Options_Options</source_model>
@@ -69,15 +69,23 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
-						</output_type>
+						</output_type -->
                         <storeid translate="label">
                             <label>Store ID (optional, Default: 1)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </storeid>
+                        <orderfields translate="label">
+                            <label>Additional order-field (see sales_flat_order)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </storeid>
+                        </orderfields>
                         <productbrand translate="label">
                             <label>Additional product-field brand (see catalog_product_flat_1)</label>
                             <frontend_type>text</frontend_type>

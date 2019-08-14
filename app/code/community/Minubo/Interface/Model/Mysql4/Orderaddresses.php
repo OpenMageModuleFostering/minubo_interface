@@ -33,13 +33,13 @@ class Minubo_Interface_Model_Mysql4_Orderaddresses extends Mage_Core_Model_Mysql
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('sales_flat_order');
         $cond2 = $this->_getReadAdapter()->quoteInto('o.billing_address_id = oab.entity_id','');
         $table3 = $this->getTable('sales_flat_order_address');
         $cond3 = $this->_getReadAdapter()->quoteInto("o.shipping_address_id = oas.entity_id ",'');
-        $where = $this->_getReadAdapter()->quoteInto("oas.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("o.store_id = ?", $store_id);
 		$select = $this->_getReadAdapter()->select()
                                         ->from(array('oab'=>$table))
                                         ->join(array('o'=>$table2), $cond2)
@@ -51,13 +51,13 @@ class Minubo_Interface_Model_Mysql4_Orderaddresses extends Mage_Core_Model_Mysql
 		return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('sales_flat_order');
         $cond2 = $this->_getReadAdapter()->quoteInto('o.billing_address_id = oab.entity_id','');
         $table3 = $this->getTable('sales_flat_order_address');
         $cond3 = $this->_getReadAdapter()->quoteInto("o.shipping_address_id = oas.entity_id ",'');
-        $where = $this->_getReadAdapter()->quoteInto("oas.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("o.store_id = ?", $store_id);
         $select = $this->_getReadAdapter()->select()
                                         ->from(array('oab'=>$table))
                                         ->join(array('o'=>$table2), $cond2)

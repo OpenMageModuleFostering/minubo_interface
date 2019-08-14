@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Minubo_Interface>
-			<version>1.0.15</version>
+			<version>1.0.16</version>
 		</Minubo_Interface>
 	</modules>
 	<global>

@@ -14,7 +14,8 @@ class Minubo_Interface_Model_Mysql4_Orderitems extends Mage_Core_Model_Mysql4_Ab
     							'op.tax_Percent','op.tax_Amount','op.base_Tax_Amount','op.tax_Invoiced','op.base_Tax_Invoiced','op.discount_Percent',
     							'op.discount_Amount','op.base_Discount_Amount','op.discount_Invoiced','op.base_Discount_Invoiced','op.amount_Refunded',
     							'op.base_Amount_Refunded','op.row_Total','op.base_Row_Total','op.row_Invoiced','op.base_Row_Invoiced','op.base_Tax_Before_Discount',
-    							'op.tax_Before_Discount','op.product_Type','op.product_Options','op.sku','op.applied_Rule_Ids','op.gift_Message_Id','o.store_id');
+    							'op.tax_Before_Discount','op.product_Type','op.product_Type AS product_Options','op.sku','op.applied_Rule_Ids','op.gift_Message_Id','o.store_id');
+    							// op.product_Type doppelt statt op.product_Options weil letzteres Probleme macht
     }
 
 		public function loadByField($field,$value){

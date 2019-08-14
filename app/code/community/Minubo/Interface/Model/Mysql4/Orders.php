@@ -7,10 +7,10 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
     }
 
     protected function getColumns() {
-    		return array('o.entity_id as orderKey','increment_id as orderNumber','created_At','updated_At',"ifnull(oab.customer_address_id,concat('g_',oab.entity_id)) as customerKey",
+    		$r = array('o.entity_id as orderKey','increment_id as orderNumber','created_At','updated_At',"ifnull(oab.customer_address_id,concat('g_',oab.entity_id)) as customerKey",
 					// 'o.customer_id as customerKey','o.coupon_code as Credit_Card_Type',
-                    'oas.postcode as shippingAddressPostcode','oas.city as shippingAddressCity','oas.country_id as shippingAddressCountryId',
-                    // 'o.coupon_code as parentKey','o.coupon_code as isActive','o.status','o.coupon_code as comment',
+          'oas.postcode as shippingAddressPostcode','oas.city as shippingAddressCity','oas.country_id as shippingAddressCountryId',
+          // 'o.coupon_code as parentKey','o.coupon_code as isActive','o.status','o.coupon_code as comment',
 					'oas.entity_id as shippingAddressIncrementId','oas.parent_id as shippingAddressParentId',
 					'oas.region_id as shippingAddressRegionId','store_Id','billing_Address_Id','shipping_Address_Id','quote_Id','is_Virtual','customer_Group_Id','customer_Is_Guest',
 					'shipping_address_id as shippingAddressAddressId',
@@ -22,6 +22,10 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
 					'global_Currency_Code','base_Currency_Code','store_Currency_Code',
 					'order_Currency_Code','shipping_Method','shipping_Description', /* shippingAddressIsActive */ 'oas.address_type as shippingAddressAddressType',
 					'oas.region as shippingAddressRegion','op.method as paymentMethod','oab.customer_address_id','md5(o.customer_email) as Customer_HashCode');
+
+				$fields = Mage::getStoreConfig('minubo_interface/settings/orderfields',Mage::app()->getStore());
+        $f = explode(',', str_replace(' ','',$fields));
+        return array_merge($r, $f);
     }
 
 		/*
