@@ -13,14 +13,14 @@ protected function getColumns() {
 		'oab.country_id','oab.postcode','oab.region','oab.region_id','oab.address_type',
 		'oas.entity_id as shippingIncrementKey','oas.city as shippingCity','oas.country_id as shippingCountry',
 		'oas.postcode as shippingPostcode','oas.region as shippingRegion','oas.region_id as shippingRegionId',
-		'oas.address_type as shippingAddressType','md5(o.customer_email) as Customer_HashCode');
+		'oas.address_type as shippingAddressType','md5(lower(o.customer_email)) as Customer_HashCode');
 	$showemail = Mage::getStoreConfig('minubo_interface/settings/showemail',Mage::app()->getStore());
 	if($showemail) 
 		$field1 = 'email';
 	else
 		$field1 = 'substring(oab.email,1,0) as email';
-	$field2 = 'cg.customer_group_code';
-	return array_merge($r, array($field1), array($field2));
+	$fields2 = array('cg.customer_group_code',"ifnull(oab.customer_id,md5(lower(o.customer_email))) as customerKey");
+	return array_merge($r, array($field1), $fields2);
 }
 
 public function loadByField($field,$value){

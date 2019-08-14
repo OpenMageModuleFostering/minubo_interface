@@ -89,18 +89,20 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('orderaddresses');
 		$orderaddresses = $model->readAllByStoreId($store_id);
-		echo '# OrderAddresses: '.count($orderaddresses).'<br>';
+		echo '# OrderAddresses (Customers): '.count($orderaddresses).'<br>';
 
+		/*
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('customers');
 		$customers = $model->readAllByStoreId($store_id);
 		echo '# Customers: '.count($customers).'<br>';
-
+		
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('customeraddresses');
 		$customeraddresses = $model->readAllByStoreId($store_id);
 		echo '# CustomerAddresses: '.count($customeraddresses).'<br>';
-
+		*/
+		
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('creditmemos');
 		$creditmemos = $model->readAllByStoreId($store_id);
