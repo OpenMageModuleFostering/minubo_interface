@@ -49,7 +49,8 @@ class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Ab
 
     public function exportTable($rows, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array())
     {
-        $fileName = $filename.'_export_'.date("Ymd_His").'.csv';
+        // $fileName = $filename.'_export_'.date("Ymd_His").'.csv';
+        $fileName = $filename.'_export.csv';
         $fp = fopen(Mage::getBaseDir('export').'/'.$fileName, 'w');
 
         $this->writeHeadRow($fp, $type, '', $colTitles, $skipCols, $renameCols);
