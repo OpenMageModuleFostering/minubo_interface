@@ -7,7 +7,15 @@ class Minubo_Interface_Model_Mysql4_Products2 extends Mage_Core_Model_Mysql4_Abs
     }
 
     protected function getColumns() {
-        return array('entity_id','attribute_set_id','type_id','color','name','short_description','sku','price','special_price','special_from_date','special_to_date','cost','weight','small_image','thumbnail','news_from_date','news_to_date','tax_class_id','url_key','url_path','is_recurring','recurring_profile','visibility','required_options','has_options','image_label','small_image_label','thumbnail_label','created_at','updated_at','enable_googlecheckout','price_type','sku_type','weight_type','price_view','shipment_type','links_purchased_separately','links_title','manufacturer','manufacturer_value','links_exist','custom_design_from','custom_design_to','custom_layout_update','gallery','gift_message_available','image','media_gallery','meta_description','meta_keyword','meta_title','minimal_price','msrp','msrp_display_actual_price_type','msrp_enabled','old_id');
+        return array('entity_id','sku','name','type_id','attribute_set_id','created_at','type_id as typeKey','weight',
+            'visibility','has_options','gift_message_available','price','special_price',
+            'special_from_date','special_to_date','tax_class_id','required_options',
+            'price_type','sku_type','shipment_type','cost','msrp_enabled','msrp',
+            'small_image','thumbnail','news_from_date','news_to_date','url_key','url_path',
+            'is_recurring','recurring_profile','image_label','small_image_label',
+            'thumbnail_label','updated_at','weight_type','price_view',
+            'links_purchased_separately','links_exist',
+            'msrp_display_actual_price_type','short_description');
     }
 
     public function loadByField($field,$value){

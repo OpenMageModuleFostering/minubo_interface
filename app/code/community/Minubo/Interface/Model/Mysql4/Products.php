@@ -8,15 +8,18 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
     }
     
     protected function getColumns() {
-    		return array('entity_id','sku','name','type_id','attribute_set_id','created_at','type_id as typeKey','weight',
+        $r = array('entity_id','sku','name','type_id','attribute_set_id','created_at','type_id as typeKey','weight',
                         'visibility','has_options','gift_message_available','price','special_price',
                         'special_from_date','special_to_date','tax_class_id','required_options',
                         'price_type','sku_type','shipment_type','cost','msrp_enabled','msrp',
                         'small_image','thumbnail','news_from_date','news_to_date','url_key','url_path',
                         'is_recurring','recurring_profile','image_label','small_image_label',
-                        'thumbnail_label','updated_at','enable_googlecheckout','weight_type','price_view',
-                        'links_purchased_separately','links_title','links_exist',
+                        'thumbnail_label','updated_at','weight_type','price_view',
+                        'links_purchased_separately','links_exist',
                         'msrp_display_actual_price_type','short_description');
+        $fields = Mage::getStoreConfig('minubo_interface/settings/productfields',Mage::app()->getStore());
+        $f = explode(',', str_replace(' ','',$fields));
+        return array_merge($r, $f);
     }
 
     public function loadByField($field,$value){

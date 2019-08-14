@@ -156,10 +156,12 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 		$download = $this->getRequest()->getPost('download');
 
-		$config = new Mage_Core_Model_Config();
-		$config->saveConfig('minubo_interface/settings/lastexportstartdate', date('Y.m.d H:i:s'), 'default', 0);
-		$config = null;
-
+        $endtime = str_replace('.','-',Mage::getStoreConfig('minubo_interface/settings/lastexportenddate',Mage::app()->getStore()));
+        if(time()-strtotime($endtime)>(600)) {
+            $config = new Mage_Core_Model_Config();
+            $config->saveConfig('minubo_interface/settings/lastexportstartdate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
+            $config = null;
+        }
 	}
 
 	public function countriesAction ()
@@ -184,7 +186,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 				break;
 		}
 		$config = new Mage_Core_Model_Config();
-		$config->saveConfig('minubo_interface/settings/lastexportenddate', date('Y.m.d H:i:s'), 'default', 0);
+		$config->saveConfig('minubo_interface/settings/lastexportenddate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
 		$config = null;
 
 		$rows = null;
@@ -307,7 +309,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 				break;
 		}
 		$config = new Mage_Core_Model_Config();
-		$config->saveConfig('minubo_interface/settings/lastexportenddate', date('Y.m.d H:i:s'), 'default', 0);
+		$config->saveConfig('minubo_interface/settings/lastexportenddate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
 		$config = null;
 
 		$model = null;
