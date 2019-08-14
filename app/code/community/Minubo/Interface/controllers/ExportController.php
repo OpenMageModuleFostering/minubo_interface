@@ -118,7 +118,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 					'# memory_get_peak_usage(false): '.memory_get_peak_usage(false).'<br>';
   }
 
-	function getParam(&$lastChangeDate, &$maxChangeDate, &$lastOrderID, &$maxOrderID, &$limit, &$offset, &$debug, &$pdata, &$store_id, &$download) {
+	function getParam(&$lastChangeDate, &$maxChangeDate, &$lastOrderID, &$maxOrderID, &$limit, &$offset, &$debug, &$pdata, &$store_id, &$download, $nolog = false) {
 
 		$debug = $this->getRequest()->getPost('debug');
 		if($debug) echo '# memory_get_usage(true): '.memory_get_usage(true).'<br>';
@@ -143,24 +143,39 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$maxOrderID = $this->getRequest()->getPost('max_order_id');
 		// if(!$maxOrderID) $maxOrderID=9999999999;
 
-		$limit = $this->getRequest()->getPost('limit');
-		if(!$limit) $limit=1000;
+        $limit = $this->getRequest()->getPost('limit');
+        if($limit=='0') {
+            // ok
+        } else {
+            if(!$limit) $limit=1000;
+        }
 
-		$offset = $this->getRequest()->getPost('offset');
-		if(!$offset) $offset=0;
+        $offset = $this->getRequest()->getPost('offset');
+        if(!$offset) $offset=0;
 
-		$store_id = $this->getRequest()->getPost('store_id');
-		if(!$store_id) $store_id=1;
+        $store_id = $this->getRequest()->getPost('store_id');
+        if(!$store_id) $store_id=1;
 
-		$pdata = $this->getRequest()->getPost('pdata');
+        $pdata = $this->getRequest()->getPost('pdata');
 
-		$download = $this->getRequest()->getPost('download');
+        $download = $this->getRequest()->getPost('download');
 
-        $endtime = str_replace('.','-',Mage::getStoreConfig('minubo_interface/settings/lastexportenddate',Mage::app()->getStore()));
-        if(time()-strtotime($endtime)>(600)) {
+        $endtime = str_replace('.','-',Mage::getStoreConfig('vinos_interface/settings/lastexportenddate',Mage::app()->getStore()));
+        if((time()-strtotime($endtime)>(600)) && !$nolog) {
             $config = new Mage_Core_Model_Config();
-            $config->saveConfig('minubo_interface/settings/lastexportstartdate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
+            $config->saveConfig('vinos_interface/settings/lastexportstartdate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
             $config = null;
+        }
+
+        if($debug) {
+            echo 'lastChangeDate: '.$lastChangeDate.'<br>';
+            echo 'maxChangeDate: '.$maxChangeDate.'<br>';
+            echo 'lastOrderId: '.$lastOrderID.'<br>';
+            echo 'maxOrderId: '.$maxOrderID.'<br>';
+            echo 'limit: '.$limit.'<br>';
+            echo 'offset: '.$offset.'<br>';
+            echo 'storeId: '.$store_id.'<br>';
+            echo 'download: '.$download.'<br>';
         }
 	}
 
@@ -292,7 +307,14 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 			case 'Standard':
 				$model = Mage::getModel('minubo_interface/tables');
 				$model->init($sqlinterface.($store_id=='1'?'':$store_id));
-				$rows = $model->readLimited($limit, $offset);
+
+                if($limit>0) {
+                    if($debug) echo 'readLimited: '.$limit.'/'.$offset.'<br>';
+                    $rows = $model->readLimited($limit, $offset);
+                } else {
+                    if($debug) echo 'readAll<br>';
+                    $rows = $model->readAll();
+                }
 
 				if (count($colTitles)==0) {
 					$colTitles = $rows[0]; // first data-row: Array ( [attribute_set_id] => 38 ...

@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Minubo_Interface>
-			<version>1.0.10</version>
+			<version>1.0.11</version>
 		</Minubo_Interface>
 	</modules>
 	<global>
@@ -35,6 +35,24 @@
 					<categories3>
 						<table>catalog_category_flat_store_3</table>
 					</categories3>
+					<categories4>
+						<table>catalog_category_flat_store_4</table>
+					</categories4>
+					<categories5>
+						<table>catalog_category_flat_store_5</table>
+					</categories5>
+					<categories6>
+						<table>catalog_category_flat_store_6</table>
+					</categories6>
+					<categories7>
+						<table>catalog_category_flat_store_7</table>
+					</categories7>
+					<categories8>
+						<table>catalog_category_flat_store_8</table>
+					</categories8>
+					<categories9>
+						<table>catalog_category_flat_store_9</table>
+					</categories9>
 					<customers>
 						<table>customer_entity</table>
 					</customers>
@@ -71,6 +89,24 @@
 					<products3>
 						<table>catalog_product_flat_3</table>
 					</products3>
+					<products4>
+						<table>catalog_product_flat_4</table>
+					</products4>
+					<products5>
+						<table>catalog_product_flat_5</table>
+					</products5>
+					<products6>
+						<table>catalog_product_flat_6</table>
+					</products6>
+					<products7>
+						<table>catalog_product_flat_7</table>
+					</products7>
+					<products8>
+						<table>catalog_product_flat_8</table>
+					</products8>
+					<products9>
+						<table>catalog_product_flat_9</table>
+					</products9>
 					<productcategories>
 						<table>catalog_category_product_index</table>
 					</productcategories>
