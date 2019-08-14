@@ -27,14 +27,6 @@
 abstract class Minubo_Interface_Model_Export_Abstractcsv extends Mage_Core_Model_Abstract
 {
     /**
-     * Definition of abstract method to export orders to a file in a specific format in var/export.
-     *
-     * @param $orders List of orders of type Mage_Sales_Model_Order or order ids to export.
-     * @return String The name of the written file in var/export
-     */
-    abstract public function exportOrders($orders);
-
-    /**
      * Returns the name of the website, store and store view the order was placed in.
      *
      * @param Mage_Sales_Model_Order $order The order to return info from
@@ -96,6 +88,7 @@ abstract class Minubo_Interface_Model_Export_Abstractcsv extends Mage_Core_Model
      * @param Mage_Sales_Model_Order $order The order to return info from
      * @return int The total quantity of ordered items
      */
+    /*
     protected function getTotalQtyItemsOrdered($order) {
         $qty = 0;
         $orderedItems = $order->getItemsCollection();
@@ -107,6 +100,7 @@ abstract class Minubo_Interface_Model_Export_Abstractcsv extends Mage_Core_Model
         }
         return $qty;
     }
+    */
 
     /**
      * Returns the sku of the given item dependant on the product type.
@@ -190,22 +184,6 @@ abstract class Minubo_Interface_Model_Export_Abstractcsv extends Mage_Core_Model
     protected function formatPrice($price, $formatter)
     {
     	return number_format($price,2,'.','');
-
-			/*
-      $price = $formatter->formatPriceTxt($price);
-      $price = str_replace('Â', '', $price);
-			$price = str_replace('â‚¬', '€', $price); // Währungssymbol €
-    	return $price;
-    	*/
-    }
-
- 	protected function getStreet($address) {
-    	if ($address->getStreet2() != '') {
-    		return $address->getStreet1() .' ' .$address->getStreet2();
-    	}
-    	else {
-    		return $address->getStreet1();
-    	}
     }
 
 }

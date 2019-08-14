@@ -16,12 +16,13 @@ class Minubo_Interface_Block_Adminhtml_Authhash extends Mage_Adminhtml_Block_Sys
      *
      * @param  Varien_Data_Form_Element_Abstract $element
      * @return string
-     */
+
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         return $this->_toHtml();
     }
- 
+     */
+
     /**
      * Return ajax url for button
      *
@@ -47,7 +48,7 @@ class Minubo_Interface_Block_Adminhtml_Authhash extends Mage_Adminhtml_Block_Sys
         	)
         );
  
-        return $button->toHtml();
+        return $button->_toHtml();
     }
     
     

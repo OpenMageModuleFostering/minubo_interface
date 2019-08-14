@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Minubo_Interface>
-			<version>1.0.1</version>
+			<version>1.0.10</version>
 		</Minubo_Interface>
 	</modules>
 	<global>
@@ -14,6 +14,18 @@
 			<minubo_mysql4>
 				<class>Minubo_Interface_Model_Mysql4</class>
 				<entities>
+					<orders>
+						<table>sales_flat_order</table>
+					</orders>
+					<sales_flat_order_address>
+						<table>sales_flat_order_address</table>
+					</sales_flat_order_address>
+                    <sales_flat_order_payment>
+                        <table>sales_flat_order_payment</table>
+                    </sales_flat_order_payment>
+                    <orderitems>
+						<table>sales_flat_order_item</table>
+					</orderitems>
 					<categories>
 						<table>catalog_category_flat_store_1</table>
 					</categories>
@@ -23,21 +35,42 @@
 					<categories3>
 						<table>catalog_category_flat_store_3</table>
 					</categories3>
+					<customers>
+						<table>customer_entity</table>
+					</customers>
+					<customeraddresses>
+						<table>sales_flat_order_address</table>
+					</customeraddresses>
+					<orderaddresses>
+						<table>sales_flat_order_address</table>
+					</orderaddresses>
+					<customer_address_entity>
+						<table>customer_address_entity</table>
+					</customer_address_entity>
+					<customer_entity>
+						<table>customer_entity</table>
+					</customer_entity>
+					<customer_group>
+						<table>customer_group</table>
+					</customer_group>
+					<sales_flat_order>
+						<table>sales_flat_order</table>
+					</sales_flat_order>
+					<sales_flat_order_item>
+						<table>sales_flat_order_item</table>
+					</sales_flat_order_item>
 					<regions>
 						<table>directory_country_region</table>
 					</regions>
 					<products>
 						<table>catalog_product_flat_1</table>
 					</products>
-
 					<products2>
 						<table>catalog_product_flat_2</table>
 					</products2>
-
 					<products3>
 						<table>catalog_product_flat_3</table>
 					</products3>
-
 					<productcategories>
 						<table>catalog_category_product_index</table>
 					</productcategories>

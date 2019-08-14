@@ -29,23 +29,23 @@ class Minubo_Interface_Model_Tables extends Minubo_Interface_Model_Read_Common
 {
     protected function _construct()
     {
-      parent::_construct();
+        parent::_construct();
     }
 
-		public function init($ent)
-		{
-			$this->_init('minubo_interface/'.$ent);
+	public function init($ent)
+	{
+		$this->_init('minubo_interface/'.$ent);
     }
 
     public function read($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id)
     {
-			$data = $this->getResource()->loadFiltered($lastChangeDate, $lastOrderID, $maxOrderID, $limit);
+		$data = $this->getResource()->loadFiltered($lastChangeDate, $lastOrderID, $maxOrderID, $limit);
 	    return $data;
     }
 
     public function readAll()
     {
-			$data = $this->getResource()->loadAll();
+		$data = $this->getResource()->loadAll();
 	    return $data;
     }
     

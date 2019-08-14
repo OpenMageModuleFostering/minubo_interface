@@ -13,11 +13,12 @@ class Minubo_Interface_Model_Mysql4_Categories extends Mage_Core_Model_Mysql4_Ab
     public function loadByField($field,$value){
         $table = $this->getMainTable();
         $where = $this->_getReadAdapter()->quoteInto("$field = ?", $value);
-        $select = $this->_getReadAdapter()->select()->from($table)
-																										->reset('columns')
-																										->columns($this->getColumns())
-        																						->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $select = $this->_getReadAdapter()->select()
+                                        ->from($table)
+                                        ->reset('columns')
+                                        ->columns($this->getColumns())
+                                        ->where($where);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 

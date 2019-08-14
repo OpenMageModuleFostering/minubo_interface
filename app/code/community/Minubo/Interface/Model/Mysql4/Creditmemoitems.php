@@ -17,7 +17,7 @@ class Minubo_Interface_Model_Mysql4_Creditmemoitems extends Mage_Core_Model_Mysq
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 

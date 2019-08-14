@@ -17,7 +17,7 @@ class Minubo_Interface_Model_Mysql4_Invoiceitems extends Mage_Core_Model_Mysql4_
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 

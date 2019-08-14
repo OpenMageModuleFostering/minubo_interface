@@ -1,5 +1,5 @@
 <?php
-class Minubo_Interface_Model_Mysql4_Categories extends Mage_Core_Model_Mysql4_Abstract
+class Minubo_Interface_Model_Mysql4_Categories3 extends Mage_Core_Model_Mysql4_Abstract
 {
     public function _construct()
     {
@@ -10,7 +10,7 @@ class Minubo_Interface_Model_Mysql4_Categories extends Mage_Core_Model_Mysql4_Ab
         $table = $this->getMainTable();
         $where = $this->_getReadAdapter()->quoteInto("$field = ?", $value);
         $select = $this->_getReadAdapter()->select()->from($table,array('entity_id','parent_id','position','name','image','url_key','url_path'))->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 
