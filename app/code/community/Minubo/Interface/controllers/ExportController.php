@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Minubo
+ * @category	 Minubo
  * @package	Minubo_Interface
- * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
- * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright	Copyright (c) 2013 Minubo (http://www.minubo.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php	Open Software License (OSL 3.0)
  * @author	 Sven Rothe <sven@minubo.com>
  * */
 class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Action
@@ -127,11 +127,11 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 	$mtime = microtime();
 	$mtime = explode(' ', $mtime);
 	return doubleval($mtime[1]) + doubleval($mtime[0]);
-  }
+	}
 
-  public function getStartlog() {
-  	return $this->getMicrotime();
-  }
+	public function getStartlog() {
+		return $this->getMicrotime();
+	}
 
 	public function getEndlog($start) {
 		return '<br># runtime: '.abs($this->getMicrotime()-$start).'<br>'.
@@ -139,7 +139,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 					'# memory_get_usage(false): '.memory_get_usage(false).'<br>'.
 					'# memory_get_peak_usage(true): '.memory_get_peak_usage(true).'<br>'.
 					'# memory_get_peak_usage(false): '.memory_get_peak_usage(false).'<br>';
-  }
+	}
 
 	function getParam(&$lastChangeDate, &$maxChangeDate, &$lastOrderID, &$maxOrderID, &$limit, &$offset, &$debug, &$pdata, &$store_id, &$download, $nolog = false) {
 
@@ -280,14 +280,14 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 	{
 		$renameCols = array('entity_id' => 'category_id');
 		$colTitles = array('Category_Id','Parent_Id','Position','Category_Name','level','image','url_key','url_path');
-		$this->handleTable ('categories', 'category', 'categories', $colTitles, Array(), $renameCols, true);
+		$this->handleTable ('categories', 'category', 'categories', $colTitles, Array(), $renameCols, true, true);
  	}
 
 	public function productcategoriesAction ()
 	{
 		$skipCols = array('is_parent');
 		$colTitles = array('category_id','product_id','position','store_id','visibility');
-		$this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array(), true);
+		$this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array(), true, true);
 	}
 
 	public function productattributesAction ()
@@ -327,7 +327,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$this->handleTable ( 'invoiceitems', 'invoiceitem', 'invoiceitems', Array(), Array(), Array(), true);
 	}
 
-	public function handleTable ($sqlinterface, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array(), $appendStoreId = false)
+	public function handleTable ($sqlinterface, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array(), $appendStoreId = false, $onlyFirstStoreId = false)
 	{
 		$start = $this->getMicrotime();
 		$this->getParam($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id, $download);
@@ -342,15 +342,17 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 					if($appendStoreId):
 						if($debug) echo 'readLimitedByStoreId: '.$limit.'/'.$offset.'/'.$store_id.'<br>';
 						$store_ids = explode(',', $store_id);
-			      if (count($store_ids)==1) {
-			      	$rows = $model->readLimitedByStoreId($limit, $offset, $store_id);
-			      } else {
-			      	$rows = $model->readLimitedByStoreId($limit, $offset, $store_ids[0]);
-			      	for($i=1; $i<count($store_ids); $i++) {
-			      		$rows2 = $model->readLimitedByStoreId($limit, $offset, $store_ids[$i]);
-			      		$rows = array_merge($rows, $rows2);
-			      	}
-			      }
+						if (count($store_ids)==1) {
+							$rows = $model->readLimitedByStoreId($limit, $offset, $store_id);
+						} else {
+							$rows = $model->readLimitedByStoreId($limit, $offset, $store_ids[0]);
+							if(!$onlyFirstStoreId) {
+								for($i=1; $i<count($store_ids); $i++) {
+									$rows2 = $model->readLimitedByStoreId($limit, $offset, $store_ids[$i]);
+									$rows = array_merge($rows, $rows2);
+								}
+							}
+						}
 					else:
 						if($debug) echo 'readLimited: '.$limit.'/'.$offset.'<br>';
 						$rows = $model->readLimited($limit, $offset);
@@ -359,15 +361,15 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 					if($appendStoreId):
 						if($debug) echo 'readAllByStoreId: '.$store_id.'<br>';
 						$store_ids = explode(',', $store_id);
-			      if (count($store_ids)==1) {
+						if (count($store_ids)==1) {
 							$rows = $model->readAllByStoreId($store_id);
-			      } else {
+						} else {
 							$rows = $model->readAllByStoreId($store_ids[0]);
-			      	for($i=1; $i<count($store_ids); $i++) {
+							for($i=1; $i<count($store_ids); $i++) {
 								$rows2 = $model->readAllByStoreId($store_ids[$i]);
-			      		$rows = array_merge($rows, $rows2);
-			      	}
-			      }
+								$rows = array_merge($rows, $rows2);
+							}
+						}
 					else:
 						if($debug) echo 'readAll<br>';
 						$rows = $model->readAll();
