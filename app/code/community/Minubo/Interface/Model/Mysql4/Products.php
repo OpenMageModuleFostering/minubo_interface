@@ -8,7 +8,8 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
 
     protected function getColumns() {
         $cost = Mage::getStoreConfig('minubo_interface/settings/productcost',Mage::app()->getStore());
-        if($cost) $cost = $cost.' as ';
+        if($cost) $cost = '('.$cost.') as ';
+
         $r = array('entity_id','sku','name','type_id','attribute_set_id','created_at','type_id as typeKey','weight',
             'visibility','has_options','gift_message_available','price','special_price',
             'special_from_date','special_to_date','tax_class_id','required_options',
@@ -18,6 +19,7 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
             'thumbnail_label','updated_at','weight_type','price_view',
             'links_exist as links_purchased_separately','links_exist',
             'price_type as msrp_display_actual_price_type','short_description');
+
         $field1 = Mage::getStoreConfig('minubo_interface/settings/productbrand',Mage::app()->getStore());
         if(!$field1) $field1 = 'created_at as dummy_brand';
         $field2 = Mage::getStoreConfig('minubo_interface/settings/productorigin',Mage::app()->getStore());

@@ -7,7 +7,15 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
     }
 
     protected function getColumns() {
-    		return array('oa.entity_id','oa.customer_address_id','oa.region_id','oa.region','oa.postcode','oa.city','oa.country_id','oa.address_type','MD5(oa.email) AS Customer_HashCode','c.group_id','cg.customer_group_code','o.store_id');
+    		$r = array('oa.entity_id','oa.customer_address_id','oa.region_id','oa.region','oa.postcode','oa.city',
+										'oa.country_id','oa.address_type','MD5(oa.email) AS Customer_HashCode','c.group_id',
+										'cg.customer_group_code','o.store_id');
+				$showemail = Mage::getStoreConfig('minubo_interface/settings/showemail',Mage::app()->getStore());
+				if($showemail) 
+					$field1 = 'email';
+				else
+					$field1 = "'' as email";        
+        return array_merge($r, array($field1));
     }
 
     public function loadByField($field,$value){

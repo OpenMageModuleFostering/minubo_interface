@@ -7,6 +7,9 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
     }
 
     protected function getColumns() {
+        $orderaddcost = Mage::getStoreConfig('minubo_interface/settings/orderaddcost',Mage::app()->getStore());
+        if($orderaddcost) $orderaddcost = '('.$orderaddcost.') as ';
+
     		$r = array('o.entity_id as orderKey','increment_id as orderNumber','created_At','updated_At',"ifnull(oab.customer_address_id,concat('g_',oab.entity_id)) as customerKey",
 					'ifnull(oas.postcode,oab.postcode) as shippingAddressPostcode','ifnull(oas.city,oab.city) as shippingAddressCity','ifnull(oas.country_id,oab.country_id) as shippingAddressCountryId',
           'ifnull(oas.entity_id,oab.entity_id) as shippingAddressIncrementId','ifnull(oas.parent_id,oab.parent_id) as shippingAddressParentId',
@@ -14,7 +17,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
 					'shipping_address_id as shippingAddressAddressId',
 					'o.created_at as shippingAddressCreatedAt','o.updated_at as shippingAddressUpdatedAt','tax_Amount','shipping_Amount','discount_Amount','subtotal','grand_Total','total_Paid',
 					'total_Refunded','total_Qty_Ordered','total_Canceled','total_Invoiced',
-					'base_Tax_Amount','base_Shipping_Amount','base_Discount_Amount','base_Grand_Total','base_Subtotal','base_Total_Paid','base_Total_Refunded',
+					'base_Tax_Amount',$orderaddcost.'base_Shipping_Amount','base_Discount_Amount','base_Grand_Total','base_Subtotal','base_Total_Paid','base_Total_Refunded',
 					'base_Total_Qty_Ordered','base_Total_Canceled','base_Total_Invoiced',
 					'store_To_Base_Rate','store_To_Order_Rate','base_To_Global_Rate','base_To_Order_Rate', /* is_active */ 'store_Name','status','state','applied_Rule_Ids',
 					'global_Currency_Code','base_Currency_Code','store_Currency_Code',
