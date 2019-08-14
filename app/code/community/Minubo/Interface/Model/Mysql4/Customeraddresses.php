@@ -29,11 +29,11 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('customer_address_entity');
         $cond2 = $this->_getReadAdapter()->quoteInto('oa.customer_address_id = ca.entity_id','');
@@ -43,7 +43,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
         $cond4 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
         $table5 = $this->getTable('sales_flat_order');
         $cond5 = $this->_getReadAdapter()->quoteInto('oa.parent_id = o.entity_id','');
-        $where = $this->_getReadAdapter()->quoteInto("oa.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from(array('oa'=>$table))
 																										->join(array('ca'=>$table2), $cond2)
 																										->join(array('c'=>$table3), $cond3)
@@ -56,7 +56,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('customer_address_entity');
         $cond2 = $this->_getReadAdapter()->quoteInto('oa.customer_address_id = ca.entity_id','');
@@ -66,7 +66,7 @@ class Minubo_Interface_Model_Mysql4_Customeraddresses extends Mage_Core_Model_My
         $cond4 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
         $table5 = $this->getTable('sales_flat_order');
         $cond5 = $this->_getReadAdapter()->quoteInto('oa.parent_id = o.entity_id','');
-        $where = $this->_getReadAdapter()->quoteInto("oa.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from(array('oa'=>$table))
 																										->join(array('ca'=>$table2), $cond2)
 																										->join(array('c'=>$table3), $cond3)

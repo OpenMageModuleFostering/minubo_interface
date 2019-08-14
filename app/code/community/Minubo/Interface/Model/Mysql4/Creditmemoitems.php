@@ -7,8 +7,27 @@ class Minubo_Interface_Model_Mysql4_Creditmemoitems extends Mage_Core_Model_Mysq
     }
 
     protected function getColumns() {
-    		return array('entity_id','parent_id','weee_tax_applied_row_amount','base_price','base_weee_tax_row_disposition','tax_amount','base_weee_tax_applied_amount','weee_tax_row_disposition','base_row_total','discount_amount','row_total','weee_tax_applied_amount','base_discount_amount','base_weee_tax_disposition','price_incl_tax','base_tax_amount','weee_tax_disposition','base_price_incl_tax','qty','base_cost','base_weee_tax_applied_row_amnt','price','base_row_total_incl_tax','row_total_incl_tax','product_id','order_item_id','additional_data','description','weee_tax_applied','sku','name','hidden_tax_amount','base_hidden_tax_amount');
+    		return array('cp.entity_id','cp.parent_id','cp.weee_tax_applied_row_amount','cp.base_price','cp.base_weee_tax_row_disposition',
+    								'cp.tax_amount','cp.base_weee_tax_applied_amount','cp.weee_tax_row_disposition','cp.base_row_total','cp.discount_amount',
+    								'cp.row_total','cp.weee_tax_applied_amount','cp.base_discount_amount','cp.base_weee_tax_disposition','cp.price_incl_tax',
+    								'cp.base_tax_amount','cp.weee_tax_disposition','cp.base_price_incl_tax','cp.qty','cp.base_cost',
+    								'cp.weee_tax_applied as base_weee_tax_applied_row_amnt','cp.price','cp.base_row_total_incl_tax','cp.row_total_incl_tax',
+    								'cp.product_id','cp.order_item_id','cp.additional_data','cp.description','cp.weee_tax_applied','cp.sku','cp.name',
+    								'cp.hidden_tax_amount','cp.base_hidden_tax_amount','c.store_id');
     }
+
+    /*
+    	SELECT
+				cp.entity_id, cp.parent_id, cp.weee_tax_applied_row_amount, cp.base_price, cp.base_weee_tax_row_disposition, cp.tax_amount,
+				cp.base_weee_tax_applied_amount, cp.weee_tax_row_disposition, cp.base_row_total, cp.discount_amount, cp.row_total, cp.weee_tax_applied_amount,
+				cp.base_discount_amount, cp.base_weee_tax_disposition, cp.price_incl_tax, cp.base_tax_amount, cp.weee_tax_disposition, cp.base_price_incl_tax,
+				cp.qty,cp.base_cost,
+				-- cp.base_weee_tax_applied_row_amnt,  // not available at native instruments
+				cp.price, cp.base_row_total_incl_tax, cp.row_total_incl_tax, cp.product_id, cp.order_item_id, cp.additional_data, cp.description,
+				cp.weee_tax_applied, cp.sku,cp.name, cp.hidden_tax_amount, cp.base_hidden_tax_amount, c.store_id
+			FROM sales_flat_creditmemo_item cp
+			INNER JOIN sales_flat_creditmemo c ON cp.parent_id = c.entity_id
+    */
 
     public function loadByField($field,$value){
         $table = $this->getMainTable();
@@ -17,30 +36,36 @@ class Minubo_Interface_Model_Mysql4_Creditmemoitems extends Mage_Core_Model_Mysq
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
-        $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
-				$select = $this->_getReadAdapter()->select()->from($table)
+        $tableHeader = $this->getTable('creditmemos');
+        $condHeader = $this->_getReadAdapter()->quoteInto('cp.parent_id = c.entity_id','');
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
+				$select = $this->_getReadAdapter()->select()->from(array('cp'=>$table))
+                                        						->join(array('c'=>$tableHeader), $condHeader)
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where)
-        																						->order('entity_id');
+        																						->order('cp.entity_id');
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = $this->getMainTable();
-        $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
-				$select = $this->_getReadAdapter()->select()->from($table)
+        $tableHeader = $this->getTable('creditmemos');
+        $condHeader = $this->_getReadAdapter()->quoteInto('cp.parent_id = c.entity_id','');
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
+				$select = $this->_getReadAdapter()->select()->from(array('cp'=>$table))
+                                        						->join(array('c'=>$tableHeader), $condHeader)
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where)
         																						->limit($limit, $offset)
-        																						->order('entity_id');
+        																						->order('cp.entity_id');
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 

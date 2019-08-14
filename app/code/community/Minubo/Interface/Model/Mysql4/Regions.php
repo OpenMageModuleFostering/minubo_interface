@@ -14,31 +14,31 @@ class Minubo_Interface_Model_Mysql4_Regions extends Mage_Core_Model_Mysql4_Abstr
         $table = $this->getMainTable();
         $where = $this->_getReadAdapter()->quoteInto("$field = ?", $value);
         $select = $this->_getReadAdapter()->select()->from($table)->where($where);
-        $id = $this->_getReadAdapter()->fetchOne($sql);
+        $id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 
     public function loadAll(){
         $table = $this->getMainTable();
         $where = $this->_getReadAdapter()->quoteInto("region_id > ?", 0);
-				$select = $this->_getReadAdapter()->select()->from($table)
-																										->reset('columns')
-																										->columns($this->getColumns())
-        																						->where($where)
-        																						->order('region_id');
-				return $this->_getReadAdapter()->fetchAll($select);
+			$select = $this->_getReadAdapter()->select()->from($table)
+                                            ->reset('columns')
+                                            ->columns($this->getColumns())
+                                            ->where($where)
+                                            ->order('region_id');
+		return $this->_getReadAdapter()->fetchAll($select);
     }
 
     public function loadLimited($limit, $offset){
         $table = $this->getMainTable();
         $where = $this->_getReadAdapter()->quoteInto("region_id > ?", 0);
-				$select = $this->_getReadAdapter()->select()->from($table)
-																										->reset('columns')
-																										->columns($this->getColumns())
-        																						->where($where)
-        																						->limit($limit, $offset)
-        																						->order('region_id');
-				return $this->_getReadAdapter()->fetchAll($select);
+        $select = $this->_getReadAdapter()->select()->from($table)
+                                        ->reset('columns')
+                                        ->columns($this->getColumns())
+                                        ->where($where)
+                                        ->limit($limit, $offset)
+                                        ->order('region_id');
+        return $this->_getReadAdapter()->fetchAll($select);
     }
 
 }

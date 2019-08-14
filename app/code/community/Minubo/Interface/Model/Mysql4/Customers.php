@@ -20,29 +20,29 @@ class Minubo_Interface_Model_Mysql4_Customers extends Mage_Core_Model_Mysql4_Abs
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where);
-				$id = $this->_getReadAdapter()->fetchOne($sql);
+				$id = $this->_getReadAdapter()->fetchOne($select);
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('customer_group');
         $cond2 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
-        $where = $this->_getReadAdapter()->quoteInto("c.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from(array('c'=>$table))
 																										->join(array('cg'=>$table2), $cond2)
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where)
-        																						->order('centity_id');
+        																						->order('c.entity_id');
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
 	      $table = $this->getMainTable();
         $table2 = $this->getTable('customer_group');
         $cond2 = $this->_getReadAdapter()->quoteInto('c.group_id = cg.customer_group_id','');
-        $where = $this->_getReadAdapter()->quoteInto("c.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("c.store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from(array('c'=>$table))
 																										->join(array('cg'=>$table2), $cond2)
 																										->reset('columns')
