@@ -23,6 +23,24 @@ protected function getColumns() {
 	return array_merge($r, array($field1), $fields2);
 }
 
+/*
+	select
+		oab.entity_id as customerId, o.created_at, oab.customer_address_id as incrementKey, o.store_id,
+		o.store_id as websiteKey, o.store_name,o.customer_group_id, o.customer_dob, oab.prefix,
+		ifnull(oab.customer_address_id,concat(g_,oab.entity_id)) as customerNumber,
+		oab.entity_id as billingCustomerAddressKey, oab.entity_id as billingIncrementKey,oab.city,
+		oab.country_id, oab.postcode, oab.region, oab.region_id, oab.address_type,
+		oas.entity_id as shippingIncrementKey, oas.city as shippingCity, oas.country_id as shippingCountry,
+		oas.postcode as shippingPostcode, oas.region as shippingRegion,oas.region_id as shippingRegionId,
+		oas.address_type as shippingAddressType, md5(lower(o.customer_email)) as Customer_HashCode,
+		email, cg.customer_group_code, ifnull(oab.customer_id, md5(lower(o.customer_email))) as customerKey
+	from sales_flat_order_address oab
+	left outer join sales_flat_order o on o.billing_address_id = oab.entity_id
+	left outer join sales_flat_order_address oas on o.shipping_address_id = oas.entity_id 
+	left outer join customer_group cg on o.customer_group_id = cg.customer_group_id 
+	where o.store_id = 1
+*/
+
 public function loadByField($field,$value){
 	$table = $this->getMainTable();
 	$table2 = $this->getTable('sales_flat_order');

@@ -21,13 +21,13 @@ protected function getColumns() {
 		'store_To_Base_Rate','store_To_Order_Rate','base_To_Global_Rate','base_To_Order_Rate', /* is_active */ 'store_Name','status','state','applied_Rule_Ids',
 		'global_Currency_Code','base_Currency_Code','store_Currency_Code',
 		'order_Currency_Code','shipping_Method','shipping_Description', /* shippingAddressIsActive */ 'ifnull(oas.address_type,oab.address_type) as shippingAddressAddressType',
-		'ifnull(oas.region,oab.region) as shippingAddressRegion','op.method as paymentMethod','oab.customer_address_id','md5(o.customer_email) as Customer_HashCode');
+		'ifnull(oas.region,oab.region) as shippingAddressRegion','op.method as paymentMethod','oab.customer_address_id','md5(lower(o.customer_email)) as Customer_HashCode');
 	$fields = Mage::getStoreConfig('minubo_interface/settings/orderfields',Mage::app()->getStore());
 	$f = explode(',', str_replace(' ','',$fields));
 	return array_merge($r, $f);
 }
 
-	/*
+/*
 	SELECT o.entity_id as orderKey,o.increment_id as orderNumber,o.created_At,o.updated_At, ifnull(oab.customer_address_id,concat('g_',oab.entity_id)) as customerKey,
 		ifnull(oas.postcode,oab.postcode) as shippingAddressPostcode,ifnull(oas.city,oab.city) as shippingAddressCity,ifnull(oas.country_id,oab.country_id) as shippingAddressCountryId,
 		ifnull(oas.entity_id,oab.entity_id) as shippingAddressIncrementId,ifnull(oas.parent_id,oab.parent_id) as shippingAddressParentId,
@@ -40,13 +40,13 @@ protected function getColumns() {
 		o.store_To_Base_Rate,o.store_To_Order_Rate,o.base_To_Global_Rate,o.base_To_Order_Rate,o.store_Name,o.status,o.state,o.applied_Rule_Ids,
 		o.global_Currency_Code,o.base_Currency_Code,o.store_Currency_Code,
 		o.order_Currency_Code,o.shipping_Method,o.shipping_Description, ifnull(oas.address_type,oab.address_type) as shippingAddressAddressType,
-		ifnull(oas.region,oab.region) as shippingAddressRegion,op.method as paymentMethod,oab.customer_address_id,md5(o.customer_email) as Customer_HashCode		
+		ifnull(oas.region,oab.region) as shippingAddressRegion,op.method as paymentMethod,oab.customer_address_id,md5(lower(o.customer_email)) as Customer_HashCode		
 		FROM `sales_flat_order` o
 		left outer join sales_flat_order_address oas on o.shipping_address_id = oas.entity_id
 		left outer join sales_flat_order_payment op on o.entity_id = op.parent_id
 		left outer join sales_flat_order_address oab on o.billing_address_id = oab.entity_id
 		where o.store_id = 1
-		*/
+*/
 
 public function loadByField($field,$value){
 	$table = $this->getMainTable();
