@@ -22,7 +22,7 @@
  * @package    Minubo_Interface
  * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     Sven Rothe <sven@minubo.com>
+ * @author     Sven Rothe <srothe@minubo.com>
  * */
 abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstract
 
@@ -30,15 +30,7 @@ abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstra
 	/**
      * Definition of abstract method to export orders to a file in a specific format in var/export.
      *
-     * @param $lastChangeDate
-     * @param $maxChangeDate
-     * @param $lastOrderID
-     * @param $maxOrderID
-     * @param $limit
-     * @param $offset
-     * @param $debug
-     * @param $pdata
-     * @param $store_id
+     * @param $orders List of orders of type Mage_Sales_Model_Order or order ids to export.
      * @return String The name of the written file in var/export
      */
     abstract public function read($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id);
@@ -105,7 +97,6 @@ abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstra
      * @param Mage_Sales_Model_Order $order The order to return info from
      * @return int The total quantity of ordered items
      */
-    /*
     protected function getTotalQtyItemsOrdered($order) {
         $qty = 0;
         $orderedItems = $order->getItemsCollection();
@@ -117,7 +108,6 @@ abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstra
         }
         return $qty;
     }
-    */
 
     /**
      * Returns the sku of the given item dependant on the product type.
@@ -201,12 +191,11 @@ abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstra
     protected function formatPrice($price, $formatter)
     {
         $price = $formatter->formatPriceTxt($price);
-        $price = str_replace('ï¿½', '', $price);
-		$price = str_replace('â‚¬', 'ï¿½', $price);
+        $price = str_replace('Â', '', $price);
+		$price = str_replace('â‚¬', '€', $price);
     	return $price;
     }
 
-    /*
  	protected function getStreet($address) {
     	if ($address->getStreet2() != '') {
     		return $address->getStreet1() .' ' .$address->getStreet2();
@@ -215,7 +204,7 @@ abstract class Minubo_Interface_Model_Read_Common extends Mage_Core_Model_Abstra
     		return $address->getStreet1();
     	}
     }
-    */
+
 }
 
 ?>

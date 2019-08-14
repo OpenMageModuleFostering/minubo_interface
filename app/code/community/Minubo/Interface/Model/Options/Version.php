@@ -1,5 +1,5 @@
 <?php
-class Minubo_Interface_Model_Options_Version
+class Minubo_Interface_Model_Options_Options
 {
 
 	public function toOptionArray()

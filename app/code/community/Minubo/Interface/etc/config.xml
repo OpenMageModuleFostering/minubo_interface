@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Minubo_Interface>
-			<version>1.0.16</version>
+			<version>1.0.2</version>
 		</Minubo_Interface>
 	</modules>
 	<global>
@@ -14,18 +14,6 @@
 			<minubo_mysql4>
 				<class>Minubo_Interface_Model_Mysql4</class>
 				<entities>
-					<orders>
-						<table>sales_flat_order</table>
-					</orders>
-					<sales_flat_order_address>
-						<table>sales_flat_order_address</table>
-					</sales_flat_order_address>
-          <sales_flat_order_payment>
-              <table>sales_flat_order_payment</table>
-          </sales_flat_order_payment>
-          <orderitems>
-						<table>sales_flat_order_item</table>
-					</orderitems>
 					<categories>
 						<table>catalog_category_flat_store_1</table>
 					</categories>
@@ -35,24 +23,6 @@
 					<categories3>
 						<table>catalog_category_flat_store_3</table>
 					</categories3>
-					<categories4>
-						<table>catalog_category_flat_store_4</table>
-					</categories4>
-					<categories5>
-						<table>catalog_category_flat_store_5</table>
-					</categories5>
-					<categories6>
-						<table>catalog_category_flat_store_6</table>
-					</categories6>
-					<categories7>
-						<table>catalog_category_flat_store_7</table>
-					</categories7>
-					<categories8>
-						<table>catalog_category_flat_store_8</table>
-					</categories8>
-					<categories9>
-						<table>catalog_category_flat_store_9</table>
-					</categories9>
 					<customers>
 						<table>customer_entity</table>
 					</customers>
@@ -74,9 +44,6 @@
 					<sales_flat_order>
 						<table>sales_flat_order</table>
 					</sales_flat_order>
-					<sales_flat_order_item>
-						<table>sales_flat_order_item</table>
-					</sales_flat_order_item>
 					<regions>
 						<table>directory_country_region</table>
 					</regions>
@@ -89,24 +56,6 @@
 					<products3>
 						<table>catalog_product_flat_3</table>
 					</products3>
-					<products4>
-						<table>catalog_product_flat_4</table>
-					</products4>
-					<products5>
-						<table>catalog_product_flat_5</table>
-					</products5>
-					<products6>
-						<table>catalog_product_flat_6</table>
-					</products6>
-					<products7>
-						<table>catalog_product_flat_7</table>
-					</products7>
-					<products8>
-						<table>catalog_product_flat_8</table>
-					</products8>
-					<products9>
-						<table>catalog_product_flat_9</table>
-					</products9>
 					<productcategories>
 						<table>catalog_category_product_index</table>
 					</productcategories>
@@ -134,6 +83,7 @@
 					<invoiceitems>
 						<table>sales_flat_invoice_item</table>
 					</invoiceitems>
+
 				</entities>
 			</minubo_mysql4>
 		</models>

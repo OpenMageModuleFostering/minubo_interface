@@ -21,9 +21,7 @@ class Minubo_Interface_Block_Adminhtml_System_Config_Form_Button extends Mage_Ad
         // $html = $this->_toHtml();
 
         $this->setElement($element);
-
-        // replaced by javascript-function
-        // $url = $this->getUrl('minuboface/export/newHash');
+        $url = $this->getUrl('minuboface/export/newHash');
 
         $html = $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setType('button')
