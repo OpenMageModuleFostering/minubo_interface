@@ -1,0 +1,16 @@
+<script type="text/javascript">
+    //<![CDATA[
+    function getHash() {
+        new Ajax.Request('<?php echo $this->getAjaxGetHash() ?>', {
+            method:     'get',
+            onSuccess: function(transport) {
+            	if (transport.responseText) {
+                	alert(transport.responseText)
+            	}
+            }
+        });
+    }
+    //]]>
+</script>
+ 
+<?php echo $this->getButtonHtml() ?>
