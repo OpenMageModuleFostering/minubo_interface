@@ -20,7 +20,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
 					'base_Total_Qty_Ordered','base_Total_Canceled','base_Total_Invoiced',
 					'store_To_Base_Rate','store_To_Order_Rate','base_To_Global_Rate','base_To_Order_Rate', /* is_active */ 'store_Name','status','state','applied_Rule_Ids',
 					'global_Currency_Code','base_Currency_Code','store_Currency_Code',
-					'order_Currency_Code','shipping_Method','shipping_Description','oas.gift_Message_Id', /* shippingAddressIsActive */ 'oas.address_type as shippingAddressAddressType',
+					'order_Currency_Code','shipping_Method','shipping_Description', /* shippingAddressIsActive */ 'oas.address_type as shippingAddressAddressType',
 					'oas.region as shippingAddressRegion','op.method as paymentMethod','oab.customer_address_id','md5(o.customer_email) as Customer_HashCode');
     }
 
