@@ -22,7 +22,7 @@
  * @package    Minubo_Interface
  * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     Sven Rothe <srothe@minubo.com>
+ * @author     Sven Rothe <sven@minubo.com>
  * */
 
 class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Abstractcsv
@@ -46,26 +46,28 @@ class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Ab
 
         return $fileName;
     }
-    
+
     public function exportTable($rows, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array())
     {
         $fileName = $filename.'_export_'.date("Ymd_His").'.csv';
         $fp = fopen(Mage::getBaseDir('export').'/'.$fileName, 'w');
-				
+
         $this->writeHeadRow($fp, $type, '', $colTitles, $skipCols, $renameCols);
         foreach ($rows as $row) {
-        	if (count($skipCols)==0) {
-	        	fputcsv($fp, $row, self::DELIMITER, self::ENCLOSURE);
-	        } else {
+        	// fputcsv wird nicht mehr verwendet um LF entfernen zu können
+        	// if (count($skipCols)==0) {
+	        // 	fputcsv($fp, $row, self::DELIMITER, self::ENCLOSURE);
+	        // } else {
+	        	// mit bereinigung von LF, CRLF, "
 	        	$this->writeCollection($row, $fp, $type, $skipCols);
-	        }
+	        // }
         }
 
         fclose($fp);
 
         return $fileName;
     }
-    
+
     /**
 	 * Writes the head row with the column names in the csv file.
 	 *
@@ -77,7 +79,7 @@ class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Ab
      * @param $renameCols
      */
     protected function writeHeadRow($fp, $group, $pdata='', $cols=array(), $skipCols=array(), $renameCols=array())
-    {
+   {
         $r = array();
         if($cols) {
             foreach ($cols as $col => $val) if(!in_array($col, $skipCols)) { if(array_key_exists($col, $renameCols)) $r[] = $renameCols[$col]; else $r[] = $col; }
@@ -90,14 +92,14 @@ class Minubo_Interface_Model_Export_Csv extends Minubo_Interface_Model_Export_Ab
         $data = array();
         foreach ($entries as $col => $value) {
       	    if(count($skipCols)>0) {
-			    if(!in_array($col, $skipCols)) $data[$col] = str_replace(chr(13).chr(10),' ',str_replace('"',"'",$value));
+			    if(!in_array($col, $skipCols)) $data[$col] = str_replace(chr(10),' ',str_replace(chr(13).chr(10),' ',str_replace('"',"'",$value)));
             } else {
-                $data[$col] = str_replace(chr(13).chr(10),' ',str_replace('"',"'",$value));
+                $data[$col] = str_replace(chr(10),' ',str_replace(chr(13).chr(10),' ',str_replace('"',"'",$value)));
             }
         }
         fputcsv($fp, $data, self::DELIMITER, self::ENCLOSURE);
     }
-    
+
     protected function writeCountry($country, $fp, $group)
     {
     	$common = array(

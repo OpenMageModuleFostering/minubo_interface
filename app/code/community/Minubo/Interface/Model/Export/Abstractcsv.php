@@ -22,7 +22,7 @@
  * @package    Minubo_Interface
  * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     Sven Rothe <srothe@minubo.com>
+ * @author     Sven Rothe <sven@minubo.com>
  * */
 abstract class Minubo_Interface_Model_Export_Abstractcsv extends Mage_Core_Model_Abstract
 {
