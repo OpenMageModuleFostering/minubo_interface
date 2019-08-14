@@ -5,7 +5,7 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_init('minubo_interface/products', 'entity_id');
     }
-    
+
     protected function getColumns() {
         $r = array('entity_id','sku','name','type_id','attribute_set_id','created_at','type_id as typeKey','weight',
             'visibility','has_options','gift_message_available','price','special_price',
@@ -37,7 +37,7 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
         return $id;
     }
 
-    public function loadAllByStoreId($store_id=''){
+    public function loadAllByStoreId($store_id){
         $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
         $select = $this->_getReadAdapter()->select()->from($table)
@@ -48,7 +48,7 @@ class Minubo_Interface_Model_Mysql4_Products extends Mage_Core_Model_Mysql4_Abst
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimitedByStoreId($limit, $offset, $store_id=''){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
         $select = $this->_getReadAdapter()->select()->from($table)

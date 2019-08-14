@@ -54,13 +54,13 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		echo '# Regions: '.count($regions).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
-		$model->init('categories'.($store_id=='1'?'':$store_id));
-		$categories = $model->readAll();
+		$model->init('categories');
+		$categories = $model->readAllByStoreId($store_id);
 		echo '# Categories: '.count($categories).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
-		$model->init('products'.($store_id=='1'?'':$store_id));
-		$products = $model->readAll();
+		$model->init('products');
+		$products = $model->readAllByStoreId($store_id);
 		echo '# Products: '.count($products).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
@@ -69,19 +69,18 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		echo '# ProductAttributes: '.count($productattributes).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
-		$model->init('productcategories'.($store_id=='1'?'':$store_id));
-		$productcategories = $model->readAll();
+		$model->init('productcategories');
+		$productcategories = $model->readAllByStoreId($store_id);
 		echo '# ProductCategories: '.count($productcategories).'<br>';
 
-		// $orders = Mage::getModel('minubo_interface/read_collections')->read($lastChangeDate, '', $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id);
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('orders');
-		$orders = $model->readAll();
+		$orders = $model->readAllByStoreId($store_id);
 		echo '# Orders: '.count($orders).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('orderitems');
-		$orderitems = $model->readAll();
+		$orderitems = $model->readAllByStoreId($store_id);
 		echo '# OrderItems: '.count($orderitems).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
@@ -91,7 +90,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('customers');
-		$customers = $model->readAll();
+		$customers = $model->readAllByStoreId($store_id);
 		echo '# Customers: '.count($customers).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
@@ -101,22 +100,22 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('creditmemos');
-		$creditmemos = $model->readAll();
+		$creditmemos = $model->readAllByStoreId($store_id);
 		echo '# CreditMemos: '.count($creditmemos).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('creditmemoitems');
-		$creditmemoitems = $model->readAll();
+		$creditmemoitems = $model->readAllByStoreId($store_id);
 		echo '# CreditMemoItems: '.count($creditmemoitems).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('invoices');
-		$invoices = $model->readAll();
+		$invoices = $model->readAllByStoreId($store_id);
 		echo '# Invoices: '.count($invoices).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('invoiceitems');
-		$invoiceitems = $model->readAll();
+		$invoiceitems = $model->readAllByStoreId($store_id);
 		echo '# InvoiceItems: '.count($invoiceitems).'<br>';
 
 	}
@@ -238,13 +237,13 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 	public function ordersAction ()
 	{
 		$renameCols = array('entity_id' => 'order_id');
-		$this->handleTable ('orders', 'order', 'orders', Array(), Array(), $renameCols);
+		$this->handleTable ('orders', 'order', 'orders', Array(), Array(), $renameCols, true);
 	}
 
 	public function orderItemsAction ()
 	{
 		$renameCols = array('item_id' => 'orderitem_id');
-		$this->handleTable ('orderitems', 'orderitem', 'orderitems', Array(), Array(), $renameCols);
+		$this->handleTable ('orderitems', 'orderitem', 'orderitems', Array(), Array(), $renameCols, true);
 	}
 
 	public function orderCustomersAction ()
@@ -259,7 +258,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 	public function customersAction ()
 	{
 		$renameCols = array('entity_id' => 'customer_id');
-		$this->handleTable ('customers', 'customer', 'customers', Array(), Array(), $renameCols);
+		$this->handleTable ('customers', 'customer', 'customers', Array(), Array(), $renameCols, true);
 	}
 
 	public function customerAddressesAction ()
@@ -284,7 +283,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 	{
 		$skipCols = array('is_parent');
 		$colTitles = array('category_id','product_id','position','store_id','visibility');
-		$this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array());
+		$this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array(), true);
 	}
 
 	public function productattributesAction ()
@@ -308,20 +307,20 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 
 	public function creditmemosAction ()
 	{
-		$this->handleTable ('creditmemos', 'creditmemo', 'creditmemos', Array(), Array(), Array());
+		$this->handleTable ('creditmemos', 'creditmemo', 'creditmemos', Array(), Array(), Array(), true);
 	}
 	public function creditmemoItemsAction ()
 	{
-		$this->handleTable ('creditmemoitems', 'creditmemoitem', 'creditmemoitems', Array(), Array(), Array());
+		$this->handleTable ('creditmemoitems', 'creditmemoitem', 'creditmemoitems', Array(), Array(), Array(), true);
 	}
 
 	public function invoicesAction ()
 	{
-		$this->handleTable ('invoices', 'invoice', 'invoices', Array(), Array(), Array());
+		$this->handleTable ('invoices', 'invoice', 'invoices', Array(), Array(), Array(), true);
 	}
 	public function invoiceItemsAction ()
 	{
-		$this->handleTable ( 'invoiceitems', 'invoiceitem', 'invoiceitems', Array(), Array(), Array());
+		$this->handleTable ( 'invoiceitems', 'invoiceitem', 'invoiceitems', Array(), Array(), Array(), true);
 	}
 
 	public function handleTable ($sqlinterface, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array(), $appendStoreId = false)

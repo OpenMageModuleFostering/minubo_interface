@@ -26,21 +26,21 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
 
 		/*
 		SELECT o.entity_id as orderKey, increment_id as orderNumber, created_At, updated_At, o.customer_id as customerKey,
-					oas.postcode as shippingAddressPostcode, oas.city as shippingAddressCity, oas.country_id as shippingAddressCountryId, 
-					oas.entity_id as shippingAddressIncrementId, oas.parent_id as shippingAddressParentId, 
-					oas.region_id as shippingAddressRegionId, store_Id, 
-					billing_Address_Id, shipping_Address_Id, quote_Id, is_Virtual, customer_Group_Id, customer_Is_Guest, 
-					shipping_address_id as shippingAddressAddressId, 
+					oas.postcode as shippingAddressPostcode, oas.city as shippingAddressCity, oas.country_id as shippingAddressCountryId,
+					oas.entity_id as shippingAddressIncrementId, oas.parent_id as shippingAddressParentId,
+					oas.region_id as shippingAddressRegionId, store_Id,
+					billing_Address_Id, shipping_Address_Id, quote_Id, is_Virtual, customer_Group_Id, customer_Is_Guest,
+					shipping_address_id as shippingAddressAddressId,
 					o.created_at as shippingAddressCreatedAt, o.updated_at as shippingAddressUpdatedAt,
-					tax_Amount, shipping_Amount, discount_Amount, subtotal, grand_Total, total_Paid, 
-					total_Refunded, total_Qty_Ordered, total_Canceled, total_Invoiced, 
-					base_Tax_Amount, base_Shipping_Amount, base_Discount_Amount, base_Grand_Total, base_Subtotal, base_Total_Paid, base_Total_Refunded, 
-					base_Total_Qty_Ordered, base_Total_Canceled, base_Total_Invoiced, 
-					store_To_Base_Rate, store_To_Order_Rate, base_To_Global_Rate, base_To_Order_Rate, store_Name, status, state, applied_Rule_Ids, 
-					global_Currency_Code, base_Currency_Code, store_Currency_Code, 
+					tax_Amount, shipping_Amount, discount_Amount, subtotal, grand_Total, total_Paid,
+					total_Refunded, total_Qty_Ordered, total_Canceled, total_Invoiced,
+					base_Tax_Amount, base_Shipping_Amount, base_Discount_Amount, base_Grand_Total, base_Subtotal, base_Total_Paid, base_Total_Refunded,
+					base_Total_Qty_Ordered, base_Total_Canceled, base_Total_Invoiced,
+					store_To_Base_Rate, store_To_Order_Rate, base_To_Global_Rate, base_To_Order_Rate, store_Name, status, state, applied_Rule_Ids,
+					global_Currency_Code, base_Currency_Code, store_Currency_Code,
 					order_Currency_Code, shipping_Method, shipping_Description, oas.gift_Message_Id
 		FROM `sales_flat_order` o
-		inner join sales_flat_order_address oas on o.shipping_address_id = oas.entity_id 
+		inner join sales_flat_order_address oas on o.shipping_address_id = oas.entity_id
 		*/
 
     public function loadByField($field,$value){
@@ -63,7 +63,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('sales_flat_order_address');
         $cond2 = $this->_getReadAdapter()->quoteInto('o.shipping_address_id = oas.entity_id ','');
@@ -71,7 +71,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
         $cond3 = $this->_getReadAdapter()->quoteInto('o.entity_id = op.parent_id ','');
         $table4 = $this->getTable('sales_flat_order_address');
         $cond4 = $this->_getReadAdapter()->quoteInto("o.billing_address_id = oab.entity_id ",'');
-        $where = $this->_getReadAdapter()->quoteInto("o.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("o.store_id = ?", $store_id);
         $select = $this->_getReadAdapter()->select()->from(array('o'=>$table))
                                         ->join(array('oas'=>$table2), $cond2)
                                         ->join(array('op'=>$table3), $cond3)
@@ -83,7 +83,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = $this->getMainTable();
         $table2 = $this->getTable('sales_flat_order_address');
         $cond2 = $this->_getReadAdapter()->quoteInto('o.shipping_address_id = oas.entity_id ','');
@@ -91,7 +91,7 @@ class Minubo_Interface_Model_Mysql4_Orders extends Mage_Core_Model_Mysql4_Abstra
         $cond3 = $this->_getReadAdapter()->quoteInto('o.entity_id = op.parent_id ','');
         $table4 = $this->getTable('sales_flat_order_address');
         $cond4 = $this->_getReadAdapter()->quoteInto("o.billing_address_id = oab.entity_id ",'');
-        $where = $this->_getReadAdapter()->quoteInto("o.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("o.store_id = ?", $store_id);
         $select = $this->_getReadAdapter()->select()
                                         ->from(array('o'=>$table))
                                         ->join(array('oas'=>$table2), $cond2)

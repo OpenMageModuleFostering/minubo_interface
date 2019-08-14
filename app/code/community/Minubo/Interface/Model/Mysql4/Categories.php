@@ -23,7 +23,7 @@ class Minubo_Interface_Model_Mysql4_Categories extends Mage_Core_Model_Mysql4_Ab
         return $id;
     }
 
-    public function loadAllByStoreId($store_id=''){
+    public function loadAllByStoreId($store_id){
         $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
 				$select = $this->_getReadAdapter()->select()->from($table)
@@ -34,7 +34,7 @@ class Minubo_Interface_Model_Mysql4_Categories extends Mage_Core_Model_Mysql4_Ab
 			return $this->_getReadAdapter()->fetchAll($select);
     }
 
-	public function loadLimitedByStoreId($limit, $offset, $store_id=''){
+	public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = str_replace('_1','_'.$store_id,$this->getMainTable());
         $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
 				$select = $this->_getReadAdapter()->select()->from($table)

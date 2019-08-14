@@ -27,9 +27,9 @@ class Minubo_Interface_Model_Mysql4_Invoices extends Mage_Core_Model_Mysql4_Abst
         return $id;
     }
 
-    public function loadAll(){
+    public function loadAllByStoreId($store_id){
         $table = $this->getMainTable();
-        $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from($table)
 																										->reset('columns')
 																										->columns($this->getColumns())
@@ -38,9 +38,9 @@ class Minubo_Interface_Model_Mysql4_Invoices extends Mage_Core_Model_Mysql4_Abst
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function loadLimited($limit, $offset){
+    public function loadLimitedByStoreId($limit, $offset, $store_id){
         $table = $this->getMainTable();
-        $where = $this->_getReadAdapter()->quoteInto("entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("store_id = ?", $store_id);
 				$select = $this->_getReadAdapter()->select()->from($table)
 																										->reset('columns')
 																										->columns($this->getColumns())

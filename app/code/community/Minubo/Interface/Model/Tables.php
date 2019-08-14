@@ -48,7 +48,7 @@ class Minubo_Interface_Model_Tables extends Minubo_Interface_Model_Read_Common
 		$data = $this->getResource()->loadAll();
 	    return $data;
     }
-    public function readAllByStoreId($storeId)
+    public function readAllByStoreId($storeId='1')
     {
 		$data = $this->getResource()->loadAllByStoreId($storeId);
 	    return $data;
@@ -59,7 +59,7 @@ class Minubo_Interface_Model_Tables extends Minubo_Interface_Model_Read_Common
     	$data = $this->getResource()->loadLimited($limit, $offset);
     	return $data;
     }
-	public function readLimitedByStoreId($limit, $offset, $storeId)
+		public function readLimitedByStoreId($limit, $offset, $storeId='1')
     {
     	$data = $this->getResource()->loadLimitedByStoreId($limit, $offset, $storeId);
     	return $data;

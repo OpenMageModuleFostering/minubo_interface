@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Minubo_Interface>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</Minubo_Interface>
 	</modules>
 	<global>
@@ -20,10 +20,10 @@
 					<sales_flat_order_address>
 						<table>sales_flat_order_address</table>
 					</sales_flat_order_address>
-                    <sales_flat_order_payment>
-                        <table>sales_flat_order_payment</table>
-                    </sales_flat_order_payment>
-                    <orderitems>
+          <sales_flat_order_payment>
+              <table>sales_flat_order_payment</table>
+          </sales_flat_order_payment>
+          <orderitems>
 						<table>sales_flat_order_item</table>
 					</orderitems>
 					<categories>
