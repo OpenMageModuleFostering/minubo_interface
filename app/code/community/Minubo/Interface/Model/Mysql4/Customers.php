@@ -34,7 +34,7 @@ class Minubo_Interface_Model_Mysql4_Customers extends Mage_Core_Model_Mysql4_Abs
 																										->reset('columns')
 																										->columns($this->getColumns())
         																						->where($where)
-        																						->order('centity_id');
+        																						->order('c.entity_id');
 				return $this->_getReadAdapter()->fetchAll($select);
     }
 

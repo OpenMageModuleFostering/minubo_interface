@@ -39,7 +39,7 @@ class Minubo_Interface_Model_Mysql4_Orderaddresses extends Mage_Core_Model_Mysql
         $cond2 = $this->_getReadAdapter()->quoteInto('o.billing_address_id = oab.entity_id','');
         $table3 = $this->getTable('sales_flat_order_address');
         $cond3 = $this->_getReadAdapter()->quoteInto("o.shipping_address_id = oas.entity_id ",'');
-        $where = $this->_getReadAdapter()->quoteInto("oa.entity_id > ?", 0);
+        $where = $this->_getReadAdapter()->quoteInto("oas.entity_id > ?", 0);
 		$select = $this->_getReadAdapter()->select()
                                         ->from(array('oab'=>$table))
                                         ->join(array('o'=>$table2), $cond2)

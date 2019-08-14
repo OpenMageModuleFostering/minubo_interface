@@ -19,10 +19,10 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Minubo
- * @package    Minubo_Interface
+ * @package	Minubo_Interface
  * @copyright  Copyright (c) 2013 Minubo (http://www.minubo.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @author     Sven Rothe <srothe@minubo.com>
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author	 Sven Rothe <sven@minubo.com>
  * */
 class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Action
 {
@@ -69,7 +69,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		echo '# ProductAttributes: '.count($productattributes).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
-		$model->init('productcategories');
+		$model->init('productcategories'.($store_id=='1'?'':$store_id));
 		$productcategories = $model->readAll();
 		echo '# ProductCategories: '.count($productcategories).'<br>';
 
@@ -78,10 +78,26 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$model->init('orders');
 		$orders = $model->readAll();
 		echo '# Orders: '.count($orders).'<br>';
+
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('orderitems');
 		$orderitems = $model->readAll();
 		echo '# OrderItems: '.count($orderitems).'<br>';
+
+		$model = Mage::getModel('minubo_interface/tables');
+		$model->init('orderaddresses');
+		$orderaddresses = $model->readAll();
+		echo '# OrderAddresses: '.count($orderaddresses).'<br>';
+
+		$model = Mage::getModel('minubo_interface/tables');
+		$model->init('customers');
+		$customers = $model->readAll();
+		echo '# Customers: '.count($customers).'<br>';
+
+		$model = Mage::getModel('minubo_interface/tables');
+		$model->init('customeraddresses');
+		$customeraddresses = $model->readAll();
+		echo '# CustomerAddresses: '.count($customeraddresses).'<br>';
 
 		$model = Mage::getModel('minubo_interface/tables');
 		$model->init('creditmemos');
@@ -98,12 +114,17 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$invoices = $model->readAll();
 		echo '# Invoices: '.count($invoices).'<br>';
 
+		$model = Mage::getModel('minubo_interface/tables');
+		$model->init('invoiceitems');
+		$invoiceitems = $model->readAll();
+		echo '# InvoiceItems: '.count($invoiceitems).'<br>';
+
 	}
 
 	public function getMicrotime() {
-    $mtime = microtime();
-    $mtime = explode(' ', $mtime);
-    return doubleval($mtime[1]) + doubleval($mtime[0]);
+	$mtime = microtime();
+	$mtime = explode(' ', $mtime);
+	return doubleval($mtime[1]) + doubleval($mtime[0]);
   }
 
   public function getStartlog() {
@@ -143,40 +164,40 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$maxOrderID = $this->getRequest()->getPost('max_order_id');
 		// if(!$maxOrderID) $maxOrderID=9999999999;
 
-        $limit = $this->getRequest()->getPost('limit');
-        if($limit=='0') {
-            // ok
-        } else {
-            if(!$limit) $limit=1000;
-        }
+		$limit = $this->getRequest()->getPost('limit');
+		if($limit=='0') {
+			// ok
+		} else {
+			if(!$limit) $limit=1000;
+		}
 
-        $offset = $this->getRequest()->getPost('offset');
-        if(!$offset) $offset=0;
+		$offset = $this->getRequest()->getPost('offset');
+		if(!$offset) $offset=0;
 
-        $store_id = $this->getRequest()->getPost('store_id');
-        if(!$store_id) $store_id=1;
+		$store_id = $this->getRequest()->getPost('store_id');
+		if(!$store_id) $store_id=1;
 
-        $pdata = $this->getRequest()->getPost('pdata');
+		$pdata = $this->getRequest()->getPost('pdata');
 
-        $download = $this->getRequest()->getPost('download');
+		$download = $this->getRequest()->getPost('download');
 
-        $endtime = str_replace('.','-',Mage::getStoreConfig('vinos_interface/settings/lastexportenddate',Mage::app()->getStore()));
-        if((time()-strtotime($endtime)>(600)) && !$nolog) {
-            $config = new Mage_Core_Model_Config();
-            $config->saveConfig('vinos_interface/settings/lastexportstartdate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
-            $config = null;
-        }
+		$endtime = str_replace('.','-',Mage::getStoreConfig('vinos_interface/settings/lastexportenddate',Mage::app()->getStore()));
+		if((time()-strtotime($endtime)>(600)) && !$nolog) {
+			$config = new Mage_Core_Model_Config();
+			$config->saveConfig('vinos_interface/settings/lastexportstartdate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
+			$config = null;
+		}
 
-        if($debug) {
-            echo 'lastChangeDate: '.$lastChangeDate.'<br>';
-            echo 'maxChangeDate: '.$maxChangeDate.'<br>';
-            echo 'lastOrderId: '.$lastOrderID.'<br>';
-            echo 'maxOrderId: '.$maxOrderID.'<br>';
-            echo 'limit: '.$limit.'<br>';
-            echo 'offset: '.$offset.'<br>';
-            echo 'storeId: '.$store_id.'<br>';
-            echo 'download: '.$download.'<br>';
-        }
+		if($debug) {
+			echo 'lastChangeDate: '.$lastChangeDate.'<br>';
+			echo 'maxChangeDate: '.$maxChangeDate.'<br>';
+			echo 'lastOrderId: '.$lastOrderID.'<br>';
+			echo 'maxOrderId: '.$maxOrderID.'<br>';
+			echo 'limit: '.$limit.'<br>';
+			echo 'offset: '.$offset.'<br>';
+			echo 'storeId: '.$store_id.'<br>';
+			echo 'download: '.$download.'<br>';
+		}
 	}
 
 	public function countriesAction ()
@@ -207,7 +228,7 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$rows = null;
 		$file = null;
 	}
-	
+
 	/*
 	 * load and export of data of type TABLE
 	 * Read data directly from tables defined in config.xml and Model/Mysql4
@@ -225,40 +246,44 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$this->handleTable ('orderitems', 'orderitem', 'orderitems', Array(), Array(), $renameCols);
 	}
 
-    public function orderCustomersAction ()
-    {
-        $this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array());
-    }
+	public function orderCustomersAction ()
+	{
+		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array());
+	}
+	public function orderAddressesAction ()
+	{
+		$this->handleTable ('orderaddresses', 'orderaddr', 'orderAddresses', Array(), Array(), Array());
+	}
 
-    public function customersAction ()
+	public function customersAction ()
 	{
 		$renameCols = array('entity_id' => 'customer_id');
 		$this->handleTable ('customers', 'customer', 'customers', Array(), Array(), $renameCols);
 	}
-	
+
 	public function customerAddressesAction ()
 	{
 		$this->handleTable ('orderaddresses', 'orderaddr', 'orderaddresses', Array(), Array(), Array());
 	}
-	
+
 	public function productsAction ()
 	{
 		$skipCols = array('description', 'in_depth', 'activation_information');
-        $this->handleTable ('products', 'product', 'products', Array(), $skipCols, Array());
+		$this->handleTable ('products', 'product', 'products', Array(), $skipCols, Array(), true);
 	}
 
 	public function categoriesAction ()
 	{
 		$renameCols = array('entity_id' => 'category_id');
 		$colTitles = array('Category_Id','Parent_Id','Position','Category_Name','level','image','url_key','url_path');
-        $this->handleTable ('categories', 'category', 'categories', $colTitles, Array(), $renameCols);
+		$this->handleTable ('categories', 'category', 'categories', $colTitles, Array(), $renameCols);
  	}
 
 	public function productcategoriesAction ()
 	{
 		$skipCols = array('is_parent');
 		$colTitles = array('category_id','product_id','position','store_id','visibility');
-        $this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array());
+		$this->handleTable ('productcategories', 'productcategory', 'productcategories', $colTitles, $skipCols, Array(), true);
 	}
 
 	public function productattributesAction ()
@@ -271,13 +296,13 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 												'is_required' => 'attributeRequired',
 												'value' => 'optionLabel',
 												'value_id' => 'optionValue');
-        $this->handleTable ('productattributes', 'productattribute', 'productattributes', Array(), Array(), $renameCols);
+		$this->handleTable ('productattributes', 'productattribute', 'productattributes', Array(), Array(), $renameCols);
 	}
 
 	public function regionsAction ()
 	{
 		$colTitles = array('Region_Id','Country_Id','Region_Code','Region_Name');
-        $this->handleTable ('regions', 'region', 'regions', $colTitles, Array(), Array());
+		$this->handleTable ('regions', 'region', 'regions', $colTitles, Array(), Array());
 	}
 
 	public function creditmemosAction ()
@@ -298,23 +323,27 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 		$this->handleTable ( 'invoiceitems', 'invoiceitem', 'invoiceitems', Array(), Array(), Array());
 	}
 
-	public function handleTable ($sqlinterface, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array())
+	public function handleTable ($sqlinterface, $filename, $type, $colTitles = Array(), $skipCols = Array(), $renameCols = Array(), $appendStoreId = false)
 	{
 		$start = $this->getMicrotime();
 		$this->getParam($lastChangeDate, $maxChangeDate, $lastOrderID, $maxOrderID, $limit, $offset, $debug, $pdata, $store_id, $download);
 
-		switch(Mage::getStoreConfig('minubo_interface/settings/output_type')){
-			case 'Standard':
+		// switch(Mage::getStoreConfig('minubo_interface/settings/output_type')){
+		//	case 'Standard':
 				$model = Mage::getModel('minubo_interface/tables');
-				$model->init($sqlinterface.($store_id=='1'?'':$store_id));
+				if($appendStoreId):
+					$model->init($sqlinterface.($store_id=='1'?'':$store_id));
+				else:
+					$model->init($sqlinterface);
+				endif;
 
-                if($limit>0) {
-                    if($debug) echo 'readLimited: '.$limit.'/'.$offset.'<br>';
-                    $rows = $model->readLimited($limit, $offset);
-                } else {
-                    if($debug) echo 'readAll<br>';
-                    $rows = $model->readAll();
-                }
+				if($limit>0) {
+					if($debug) echo 'readLimited: '.$limit.'/'.$offset.'<br>';
+					$rows = $model->readLimited($limit, $offset);
+				} else {
+					if($debug) echo 'readAll<br>';
+					$rows = $model->readAll();
+				}
 
 				if (count($colTitles)==0) {
 					$colTitles = $rows[0]; // first data-row: Array ( [attribute_set_id] => 38 ...
@@ -328,8 +357,8 @@ class Minubo_Interface_ExportController extends Mage_Core_Controller_Front_Actio
 				} else {
 					$this->_prepareDownloadResponse($file, file_get_contents(Mage::getBaseDir('export').'/'.$file));
 				}
-				break;
-		}
+		//		break;
+		// }
 		$config = new Mage_Core_Model_Config();
 		$config->saveConfig('minubo_interface/settings/lastexportenddate', str_replace('.','-',date('Y.m.d H:i:s')), 'default', 0);
 		$config = null;
