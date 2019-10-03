@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Minubo_Interface",
+    "name": "OpenMageModuleFostering\/Minubo_Interface",
     "type": "magento-module",
     "license": "Open-Software-License-(OSL)",
     "homepage": "",
     "description": "Minubo Interface connects your Magento Shop to the All-In-One eCommerce Cloud BI Solution at minubo.com",
     "authors": [
-    {
-        "name": "sven rothe",
-        "email": "sven@minubo.com"
-    }
-],
+        {
+            "name": "sven rothe",
+            "email": "sven@minubo.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
