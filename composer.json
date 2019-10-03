@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Minubo_Interface",
+    "name": "openmage-module-fostering\/minubo_interface",
     "type": "magento-module",
-    "license": "Open-Software-License-(OSL)",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Minubo Interface connects your Magento Shop to the All-In-One eCommerce Cloud BI Solution at minubo.com",
     "authors": [
